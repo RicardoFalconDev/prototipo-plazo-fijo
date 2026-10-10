@@ -19,7 +19,7 @@ export const TIPOS = {
     descripcion: 'Se actualiza según la inflación. Podés retirarlo desde los 30 días de constituido.',
     corta: 'Se ajusta por inflación y podés retirarlo antes del vencimiento.',
     etiquetas: [['advertencia', 'Ajusta por inflación'], ['marca', 'Retiro desde el día 30']],
-    plazos: [180, 270, 365], min: 180, max: 365,
+    plazos: [90, 180, 365], min: 90, max: 365,
   },
   'aj-uva': {
     id: 'aj-uva', corto: 'Ajustable por UVA', nombre: 'Ajustable por UVA en pesos', moneda: 'ARS', tna: 1, uva: true,
