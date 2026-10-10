@@ -1,4 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useAnimationControls, useDragControls, animate } from 'framer-motion';
+import { SPRING, DUR, EASE, haptic } from '../motion.js';
+
+// Fuerza animación por JS: la acelerada (WAAPI) deja un cuadro en el valor inicial al terminar.
+const noopMotion = () => {};
 
 // Material icons (mismos paths que la página Íconos de Figma)
 const PATHS = {
@@ -34,26 +39,41 @@ export function AppBar({ title, onBack, onHelp, onClose }) {
       {onHelp ? (
         <button className="icon-btn" onClick={onHelp} aria-label="¿Qué es un plazo fijo?"><Icon name="help" color="var(--color-icon-brand)" /></button>
       ) : onClose ? (
-        <button className="icon-btn" onClick={onClose} aria-label="Cerrar"><Icon name="close" color="var(--color-icon-brand)" /></button>
+        <button className="icon-btn" onClick={onClose} aria-label="Cerrar"><Icon name="close" color="var(--color-icon-primary)" /></button>
       ) : <span className="icon-btn" />}
     </header>
   );
 }
 
 export function Button({ children, variant = 'primary', disabled, loading, onClick, icon }) {
+  const off = disabled || loading;
   return (
-    <button className={`btn btn-${variant}`} disabled={disabled || loading} onClick={onClick} aria-busy={loading || undefined}>
-      {loading ? <span className="spinner" aria-hidden="true" /> : icon}
-      <span className="t-label-lg">{loading ? 'Procesando…' : children}</span>
-    </button>
+    <motion.button
+      className={`btn btn-${variant}`} disabled={off} onClick={onClick} aria-busy={loading || undefined}
+      whileTap={off ? undefined : { scale: 0.98 }} transition={{ duration: DUR.micro }}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={loading ? 'cargando' : 'listo'} className="btn-content"
+          initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: DUR.micro }} onUpdate={noopMotion}>
+          {loading ? <span className="spinner" aria-hidden="true" /> : icon}
+          <span className="t-label-lg">{loading ? 'Procesando…' : children}</span>
+        </motion.span>
+      </AnimatePresence>
+    </motion.button>
   );
 }
 
 export function CurrencySelector({ value, onChange }) {
+  const id = useId();
   return (
     <div className="segmented" role="radiogroup" aria-label="Moneda">
       {[['ARS', 'Pesos'], ['USD', 'Dólares']].map(([k, l]) => (
-        <button key={k} role="radio" aria-checked={value === k} className={`segment t-label-lg ${value === k ? 'on' : ''}`} onClick={() => onChange(k)}>{l}</button>
+        <button key={k} role="radio" aria-checked={value === k} className={`segment t-label-lg ${value === k ? 'on' : ''}`} onClick={() => onChange(k)}>
+          {value === k && <motion.span layoutId={`seg-${id}`} className="segment-indicator" transition={SPRING.indicator} />}
+          <span className="segment-label">{l}</span>
+        </button>
       ))}
     </div>
   );
@@ -71,13 +91,15 @@ export function Tag({ tone = 'exito', children, icon }) {
 export function Alert({ tone = 'info', title, children }) {
   const icon = { info: 'info', exito: 'check-circle', advertencia: 'warning', error: 'error' }[tone];
   return (
-    <div className={`alert alert-${tone}`} role={tone === 'error' ? 'alert' : 'status'}>
+    <motion.div
+      className={`alert alert-${tone}`} role={tone === 'error' ? 'alert' : 'status'}
+      initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: EASE.enter }} onUpdate={noopMotion}>
       <Icon name={icon} size={20} color="currentColor" />
       <div className="alert-text">
         {title && <p className="t-label-lg c-primary">{title}</p>}
         <p className="t-body-md c-secondary">{children}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -96,11 +118,18 @@ export function SelectField({ label, value, action = 'Cambiar', onClick, empty }
 export function AmountField({ label, value, onChange, onBlur, error, help, simbolo, disabled, inputRef }) {
   const [focus, setFocus] = useState(false);
   const state = disabled ? 'disabled' : error ? 'error' : focus ? 'focus' : 'default';
+  const shake = useAnimationControls();
+  // Micro-interacción de error: sacudida corta + vibración (solo cuando aparece el error).
+  useEffect(() => {
+    if (!error) return;
+    shake.start({ x: [0, -6, 6, -4, 4, 0], transition: { duration: DUR.medium } });
+    haptic(20);
+  }, [error, shake]);
   return (
     <div className="field">
       <label className="t-title-md c-primary" htmlFor="monto">{label}</label>
-      <div className={`amount-box is-${state}`}>
-        <span className={`t-display-input ${value ? 'c-primary' : 'c-tertiary'}`}>{simbolo}</span>
+      <motion.div animate={shake} className={`amount-box is-${state}`}>
+        <span className={`t-display-input amount-symbol ${value ? 'c-primary' : 'c-tertiary'}`}>{simbolo}{'\u00A0'}</span>
         <input
           id="monto" ref={inputRef} className="t-display-input" inputMode="numeric" autoComplete="off" placeholder="0"
           value={value} disabled={disabled}
@@ -109,74 +138,97 @@ export function AmountField({ label, value, onChange, onBlur, error, help, simbo
           onBlur={() => { setFocus(false); onBlur && onBlur(); }}
           aria-invalid={!!error} aria-describedby="monto-ayuda"
         />
+      </motion.div>
+      <div id="monto-ayuda" aria-live="polite">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.p
+            key={error ? 'error' : 'ayuda'} className={`help t-body-sm ${error ? 'c-error' : 'c-tertiary'}`}
+            initial={{ opacity: 0, y: -2 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: DUR.short }} onUpdate={noopMotion}>
+            {error && <Icon name="error" size={16} color="var(--color-icon-error)" />}
+            {error || help}
+          </motion.p>
+        </AnimatePresence>
       </div>
-      <p id="monto-ayuda" className={`help t-body-sm ${error ? 'c-error' : 'c-tertiary'}`} aria-live="polite">
-        {error && <Icon name="error" size={16} color="var(--color-icon-error)" />}
-        {error || help}
-      </p>
     </div>
   );
 }
 
-export function TermChip({ selected, disabled, onClick, children, sub }) {
+export function TermChip({ selected, disabled, onClick, children, sub, subStyle = 't-label-md' }) {
   return (
-    <button className={`chip ${selected ? 'on' : ''}`} aria-pressed={selected} disabled={disabled} onClick={onClick}>
-      {children}
-      {sub && <span className="t-label-md">{sub}</span>}
-    </button>
+    <motion.button className={`chip ${selected ? 'on' : ''}`} aria-pressed={selected} disabled={disabled} onClick={onClick}
+      whileTap={disabled ? undefined : { scale: 0.96 }} transition={{ duration: DUR.micro }}>
+      {selected && <span className="chip-indicator" />}
+      <span className="chip-content">
+        {children}
+        {sub && <span className={subStyle}>{sub}</span>}
+      </span>
+    </motion.button>
   );
 }
 
 export function Radio({ on }) {
-  return <span className={`radio ${on ? 'on' : ''}`} aria-hidden="true" />;
-}
-
-export function ListOption({ selected, title, description, tags, onClick, divider = true }) {
   return (
-    <button className={`list-option ${divider ? 'divider' : ''}`} role="radio" aria-checked={selected} onClick={onClick}>
-      <Radio on={selected} />
-      <span className="list-text">
-        <span className="t-title-md c-primary">{title}</span>
-        <span className="t-body-md c-secondary">{description}</span>
-        {tags && <span className="tags">{tags.map(([t, l]) => <Tag key={l} tone={t}>{l}</Tag>)}</span>}
-      </span>
-    </button>
+    <span className={`radio ${on ? 'on' : ''}`} aria-hidden="true">
+      <AnimatePresence initial={false}>
+        {on && <motion.span className="radio-dot" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={SPRING.pop} />}
+      </AnimatePresence>
+    </span>
   );
 }
 
-export function DataRow({ label, value, emphasis = 'normal', last, children }) {
+export function ListOption({ selected, title, description, tags, featured, onClick, divider = true }) {
   return (
-    <div className={`data-row ${last ? '' : 'divider'}`}>
+    <motion.button className={`list-option ${divider ? 'divider' : ''}`} role="radio" aria-checked={selected} onClick={onClick}
+      whileTap={{ scale: 0.99 }} transition={{ duration: DUR.micro }}>
+      <Radio on={selected} />
+      <span className="list-text">
+        <span className="list-title">
+          <span className="t-title-md c-primary">{title}</span>
+          {featured && <Tag tone="exito">{featured}</Tag>}
+        </span>
+        <span className="t-body-md c-secondary">{description}</span>
+        {tags && <span className="tags">{tags.map(([t, l]) => <Tag key={l} tone={t}>{l}</Tag>)}</span>}
+      </span>
+    </motion.button>
+  );
+}
+
+// emphasis: normal | strong | positive | loading. size: 'lg' (valores body/lg y title/md) o 'md' (body/md, pantalla Revisar).
+export function DataRow({ label, value, emphasis = 'normal', size = 'lg', strongBold, last, children }) {
+  const cls = size === 'md'
+    ? { normal: 't-body-md c-primary', positive: 't-body-md c-success', strong: 't-body-md-bold c-primary' }
+    : { normal: 't-body-lg c-primary', positive: 't-title-md c-success', strong: strongBold ? 't-title-md-bold c-primary' : 't-title-md c-primary' };
+  return (
+    <div className={`data-row size-${size} ${last ? '' : 'divider'}`}>
       <span className="t-body-md c-secondary">{label}</span>
-      {emphasis === 'loading' ? <span className="skeleton" /> : children || (
-        <span className={emphasis === 'normal' ? 't-body-lg c-primary' : emphasis === 'positive' ? 't-title-md c-success' : 't-title-md c-primary'}>{value}</span>
-      )}
+      {emphasis === 'loading' ? <span className="skeleton" /> : children || <span className={cls[emphasis]}>{value}</span>}
     </div>
   );
 }
 
-export function EditableRow({ label, value, onEdit, last }) {
+export function EditableRow({ label, value, onEdit, action = 'Editar', last, compact }) {
   return (
-    <div className={`data-row editable ${last ? '' : 'divider'}`}>
+    <div className={`data-row editable ${compact ? 'compact' : ''} ${last ? '' : 'divider'}`}>
       <span className="select-data">
         <span className="t-body-sm c-tertiary">{label}</span>
         <span className="t-body-lg c-primary">{value}</span>
       </span>
-      {onEdit && <button className="pill t-label-md" onClick={onEdit}>Editar</button>}
+      {onEdit && <button className="pill t-label-md" onClick={onEdit}>{action}</button>}
     </div>
   );
 }
 
 export function AccountCard({ selected, disabled, name, balance, note, onClick }) {
   return (
-    <button className={`account ${selected ? 'on' : ''}`} role="radio" aria-checked={selected} disabled={disabled} onClick={onClick}>
+    <motion.button className={`account ${selected ? 'on' : ''}`} role="radio" aria-checked={selected} disabled={disabled} onClick={onClick}
+      whileTap={disabled ? undefined : { scale: 0.99 }} transition={{ duration: DUR.micro }}>
       <Radio on={selected} />
       <span className="select-data">
         <span className="t-body-md c-secondary">{name}</span>
         <span className="t-title-lg c-primary">{balance}</span>
         {note && <span className="t-body-sm c-error">{note}</span>}
       </span>
-    </button>
+    </motion.button>
   );
 }
 
@@ -185,34 +237,69 @@ export function Card({ children, className = '', ...rest }) {
 }
 
 export function EmptyState({ title, description, illustration, action, onAction }) {
+  // description admite saltos de línea explícitos (\n) como en Figma.
   return (
     <div className="card empty">
       {illustration && <img src={`${import.meta.env.BASE_URL}ilustracion-ahorro.svg`} width="72" height="77" alt="" />}
       <p className="t-title-md c-primary">{title}</p>
-      <p className="t-body-md c-secondary">{description}</p>
+      <p className="t-body-md c-secondary pre-line">{description}</p>
       {action && <Button onClick={onAction}>{action}</Button>}
     </div>
   );
 }
 
-export function BottomSheet({ open, title, onClose, children, actions }) {
+// Hoja inferior. Debe montarse dentro de <AnimatePresence> para animar la salida.
+// Se cierra con el fondo, con "atrás" o arrastrando hacia abajo (umbral 120 px o velocidad alta).
+export function BottomSheet({ title, onClose, children, actions }) {
   const ref = useRef(null);
-  useEffect(() => { if (open && ref.current) ref.current.focus(); }, [open]);
-  if (!open) return null;
+  const drag = useDragControls();
+  useEffect(() => { if (ref.current) ref.current.focus(); }, []);
   return (
     <div className="sheet-layer">
-      <div className="scrim" onClick={onClose} />
-      <div className="sheet" role="dialog" aria-modal="true" aria-label={title} tabIndex={-1} ref={ref}>
-        <div className="grabber" aria-hidden="true" />
-        {title && <h2 className="t-title-lg c-primary">{title}</h2>}
+      <motion.div className="scrim" onClick={onClose}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: DUR.short }} onUpdate={noopMotion} />
+      <motion.div
+        className="sheet" role="dialog" aria-modal="true" aria-label={title} tabIndex={-1} ref={ref}
+        initial={{ y: '100%' }} animate={{ y: 0, transition: SPRING.sheet }}
+        exit={{ y: '100%', transition: { duration: DUR.short, ease: EASE.exit } }}
+        drag="y" dragControls={drag} dragListener={false} dragConstraints={{ top: 0, bottom: 0 }} dragElastic={{ top: 0, bottom: 0.7 }}
+        onDragEnd={(_, info) => { if (info.offset.y > 120 || info.velocity.y > 600) onClose(); }}
+      >
+        <div className="sheet-handle" onPointerDown={(e) => drag.start(e)}>
+          <div className="grabber" aria-hidden="true" />
+          {title && <h2 className="t-title-lg c-primary">{title}</h2>}
+        </div>
         <div className="sheet-body">{children}</div>
         {actions && <div className="sheet-actions">{actions}</div>}
-      </div>
+      </motion.div>
     </div>
   );
 }
 
-export function Screen({ header, children, footer, bg }) {
+// Número que "cuenta" hasta el nuevo valor cuando cambia (400 ms).
+// El texto lo maneja solo este componente (no React) para no pisarse con la animación.
+export function AnimatedNumber({ value, format }) {
+  const ref = useRef(null);
+  const prev = useRef(value);
+  const fmt = useRef(format);
+  fmt.current = format;
+  useLayoutEffect(() => { if (ref.current) ref.current.textContent = fmt.current(value); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const from = prev.current;
+    prev.current = value;
+    if (!ref.current) return;
+    if (from === value) { ref.current.textContent = fmt.current(value); return; }
+    const ctrl = animate(from, value, {
+      duration: 0.4, ease: EASE.standard,
+      onUpdate: (v) => { if (ref.current) ref.current.textContent = fmt.current(Math.round(v * 100) / 100); },
+      onComplete: () => { if (ref.current) ref.current.textContent = fmt.current(value); },
+    });
+    return () => ctrl.stop();
+  }, [value]);
+  return <span ref={ref} />;
+}
+
+export function Screen({ header, children, footer, footerSecondary, bg, gap = 'md' }) {
   const scrollRef = useRef(null);
   const [scrolls, setScrolls] = useState(false);
   useEffect(() => {
@@ -229,8 +316,8 @@ export function Screen({ header, children, footer, bg }) {
   return (
     <div className={`screen ${bg || ''}`}>
       {header}
-      <main className="content" ref={scrollRef}><div className="content-inner">{children}</div></main>
-      {footer && <footer className={`actionbar ${scrolls ? 'raised' : ''}`}>{footer}</footer>}
+      <main className="content" ref={scrollRef}><div className={`content-inner gap-${gap}`}>{children}</div></main>
+      {footer && <footer className={`actionbar ${scrolls ? 'raised' : ''}`}>{footer}{footerSecondary}</footer>}
     </div>
   );
 }

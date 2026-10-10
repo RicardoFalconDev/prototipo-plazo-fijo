@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { BottomSheet, Button, ListOption, Alert, DataRow, Card, Icon } from '../components/ui.jsx';
 import { TIPOS, dinero, fecha, fechaLarga, vencimiento, track } from '../logic.js';
 
@@ -6,7 +7,7 @@ export function Sheets({ s, set, nav }) {
   const close = nav.back;
   return (
     <>
-      <BottomSheet open={s.sheet === 'tipo'} title="¿Qué tipo de plazo fijo querés simular?" onClose={close}
+      <AnimatePresence>{s.sheet === 'tipo' && (<BottomSheet key="tipo" title="¿Qué tipo de plazo fijo querés simular?" onClose={close}
         actions={<>
           <Button onClick={() => {
             const t = TIPOS[s.tipoDraft];
@@ -19,13 +20,13 @@ export function Sheets({ s, set, nav }) {
         </>}>
         <div role="radiogroup">
           {Object.values(TIPOS).map((t, i, arr) => (
-            <ListOption key={t.id} selected={s.tipoDraft === t.id} title={t.nombre} description={t.corta} tags={t.etiquetas}
+            <ListOption key={t.id} selected={s.tipoDraft === t.id} title={t.corto} description={t.corta}
               divider={i < arr.length - 1} onClick={() => set({ tipoDraft: t.id })} />
           ))}
         </div>
-      </BottomSheet>
+      </BottomSheet>)}</AnimatePresence>
 
-      <BottomSheet open={s.sheet === 'ayuda'} title="¿Qué es un plazo fijo?" onClose={close}
+      <AnimatePresence>{s.sheet === 'ayuda' && (<BottomSheet key="ayuda" title="¿Qué es un plazo fijo?" onClose={close}
         actions={<Button onClick={close}>Entendido</Button>}>
         <p className="t-body-md c-secondary">Es una forma de ahorrar: dejás un monto en el banco durante el tiempo que elegís y, al terminar, lo recibís de vuelta con una ganancia.</p>
         <div className="benefits">
@@ -39,16 +40,16 @@ export function Sheets({ s, set, nav }) {
           ))}
         </div>
         <Alert tone="info" title="A tener en cuenta">Tu dinero queda invertido hasta el vencimiento (salvo en el precancelable UVA).</Alert>
-      </BottomSheet>
+      </BottomSheet>)}</AnimatePresence>
 
-      <BottomSheet open={s.sheet === 'tna'} title="¿Qué es la TNA?" onClose={close} actions={<Button onClick={close}>Entendido</Button>}>
+      <AnimatePresence>{s.sheet === 'tna' && (<BottomSheet key="tna" title="¿Qué es la TNA?" onClose={close} actions={<Button onClick={close}>Entendido</Button>}>
         <p className="t-body-md c-secondary">La <strong>Tasa Nominal Anual</strong> es el porcentaje que usamos para calcular tu ganancia. Si invertís por menos de un año, se aplica la parte proporcional a los días.</p>
         <p className="t-body-md c-secondary">Ejemplo: con TNA 19,50% y $ 1.000 a 30 días, ganás aproximadamente $ 16.</p>
-      </BottomSheet>
+      </BottomSheet>)}</AnimatePresence>
 
-      {s.sheet === 'fecha' && <SheetFecha s={s} set={set} close={close} />}
+      <AnimatePresence>{s.sheet === 'fecha' && <SheetFecha key="fecha" s={s} set={set} close={close} />}</AnimatePresence>
 
-      <BottomSheet open={s.sheet === 'comprobante'} title="Comprobante" onClose={close}
+      <AnimatePresence>{s.sheet === 'comprobante' && (<BottomSheet key="comprobante" title="Comprobante" onClose={close}
         actions={<Button onClick={close}>Cerrar</Button>}>
         {s.inversiones.length > 0 && (() => {
           const inv = s.inversiones[s.inversiones.length - 1];
@@ -65,7 +66,7 @@ export function Sheets({ s, set, nav }) {
           );
         })()}
         <p className="t-body-sm c-tertiary">Prototipo: el comprobante real se descarga en PDF.</p>
-      </BottomSheet>
+      </BottomSheet>)}</AnimatePresence>
     </>
   );
 }
@@ -81,7 +82,7 @@ function SheetFecha({ s, set, close }) {
   const maxD = new Date(base); maxD.setDate(maxD.getDate() + t.max);
   const curD = new Date(base); curD.setDate(curD.getDate() + (Number(dias) || t.min));
   return (
-    <BottomSheet open title="Elegí tu plazo" onClose={close}
+    <BottomSheet title="Elegí tu plazo" onClose={close}
       actions={<>
         <Button disabled={!valido} onClick={() => { set({ dias: Number(dias), plazoPersonalizado: true }); close(); }}>Aplicar plazo</Button>
         <Button variant="secondary" onClick={close}>Cancelar</Button>

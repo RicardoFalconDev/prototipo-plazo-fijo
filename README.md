@@ -11,11 +11,22 @@
 - **En la computadora:** se muestra dentro de un teléfono simulado (360 × 800) con barra de estado y navegación de Android, y un panel lateral para saltar a pantallas, estados alternativos y escenarios de prueba.
 - Forzar un modo: `?modo=nativo` o `?modo=telefono`.
 
+## Ir directo a una pantalla
+Agregá `?pantalla=` al link: `01`, `02`, `03`, `05`, `06`, `07`, `08`, `09` (flujo) o `A`, `B`, `C`, `D` (estados).
+Ej.: `https://ricardofalcondev.github.io/prototipo-plazo-fijo/?pantalla=05`
+
 ## Qué se puede probar
 - Simulación en vivo: tipo de plazo fijo, monto, plazo (30/60/90 o fecha personalizada) y resultado con ganancia, vencimiento (corrido a día hábil) y TNA.
 - Estados: monto menor al mínimo, saldo insuficiente (probá con $ 5.000), error de conexión y operación pendiente (desde el panel).
 - Ayuda "¿Qué es un plazo fijo?" y "¿Qué es la TNA?".
 - Analítica de demostración en la consola del navegador (`[analytics]`).
+
+## Movimiento (Framer Motion)
+- Cambio de pantalla y de plazo instantáneos.
+- Resultado: tarjeta de alto fijo; esqueleto inmediato mientras responde el servicio (2 s simulados) y fundido secuencial, sin mostrar valores viejos.
+- Hojas inferiores con resorte y cierre arrastrando hacia abajo; selector de moneda con indicador deslizante.
+- Monto inválido: sacudida + vibración (celular). Éxito: el check se dibuja y el contenido entra escalonado.
+- Respeta "reducir movimiento" del sistema.
 
 ## Sistema de diseño
 Los estilos usan los mismos tokens del archivo de Figma (`src/styles/tokens.css`: primitivos, semánticos, espaciado, radios, tipografía y elevación, con los nombres del code syntax de Figma).

@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { reducer, estadoInicial, simular, montoNumero, CUENTAS, TIPOS, track } from './logic.js';
 import { PlazoFijo, ElegirTipo, Simular, ElegirCuenta, Revisar, Resultado } from './screens/screens.jsx';
 import { Sheets } from './screens/sheets.jsx';
 import { DeviceShell } from './device/DeviceShell.jsx';
+import { JUMP_BY_KEY } from './jumps.js';
 
 const SCREENS = { plazoFijo: PlazoFijo, elegirTipo: ElegirTipo, simular: Simular, elegirCuenta: ElegirCuenta, revisar: Revisar, resultado: Resultado };
 
@@ -77,13 +79,42 @@ export default function App() {
     setTimeout(() => finalizarOk(sRef.current.pendiente), 1200);
   };
 
-  const Current = SCREENS[s.stack[s.stack.length - 1]];
+  // Salto directo a una pantalla o estado (panel de escritorio o ?pantalla=05).
+  const jump = (key) => {
+    const j = JUMP_BY_KEY[key];
+    if (!j) return;
+    const patch = { ...j.patch };
+    if (patch.demoInversion) {
+      const monto = montoNumero(patch.montoTexto);
+      const r = simular({ tipo: patch.tipo, monto, dias: patch.dias });
+      const cuenta = CUENTAS[TIPOS[patch.tipo].moneda].find((c) => c.id === patch.cuenta);
+      const inv = { tipo: patch.tipo, monto, ganancia: r.ganancia, total: r.total, vence: r.fecha.getTime(), cuentaNombre: cuenta?.nombre, creado: Date.now() };
+      if (patch.resultado === 'ok') { patch.inversiones = [{ ...inv, id: '2000800010122196' }]; patch.pendiente = null; }
+      else { patch.inversiones = []; patch.pendiente = { ...inv, solicitud: 'SOL-48213' }; }
+      delete patch.demoInversion;
+    }
+    nav.goto(j.stack, patch, j.sheet || null);
+  };
+
+  useEffect(() => {
+    const k = new URLSearchParams(location.search).get('pantalla');
+    if (k) jump(k.toUpperCase());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const top = s.stack[s.stack.length - 1];
+  const Current = SCREENS[top];
   const app = (
-    <div className="app">
-      <Current s={s} set={set} nav={nav} dispatch={dispatch} confirmar={confirmar} consultar={consultar} />
-      <Sheets s={s} set={set} nav={nav} />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="app">
+        {/* Cambio de pantalla instantáneo (sin transición). */}
+        <div key={`${s.stack.length}-${top}`} className="screen-layer">
+          <Current s={s} set={set} nav={nav} dispatch={dispatch} confirmar={confirmar} consultar={consultar} />
+        </div>
+        <Sheets s={s} set={set} nav={nav} />
+      </div>
+    </MotionConfig>
   );
 
-  return <DeviceShell s={s} set={set} dispatch={dispatch} nav={nav}>{app}</DeviceShell>;
+  return <DeviceShell s={s} set={set} dispatch={dispatch} nav={nav} jump={jump}>{app}</DeviceShell>;
 }

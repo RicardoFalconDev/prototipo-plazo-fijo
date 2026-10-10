@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '../components/ui.jsx';
+import { JUMPS } from '../jumps.js';
 
 const FIGMA_URL = 'https://www.figma.com/design/ojhcfF0sAvAUHdnnqKluc5/Sandbox';
 
@@ -58,25 +59,7 @@ function useScale() {
   return k;
 }
 
-const JUMPS = [
-  ['Flujo principal', [
-    ['01 · Plazo fijo', (nav) => nav.goto(['plazoFijo'], { montoTexto: '', dias: null })],
-    ['02 · Elegir tipo', (nav) => nav.goto(['plazoFijo', 'elegirTipo'], { tipoDraft: 'trad-ars' })],
-    ['03 · Simular (vacío)', (nav) => nav.goto(['plazoFijo', 'elegirTipo', 'simular'], { tipo: 'trad-ars', montoTexto: '', dias: null, montoTocado: false })],
-    ['05 · Simular (resultado)', (nav) => nav.goto(['plazoFijo', 'elegirTipo', 'simular'], { tipo: 'trad-ars', montoTexto: '1000', dias: 30, montoTocado: true })],
-    ['06 · Cambiar tipo (hoja)', (nav) => nav.goto(['plazoFijo', 'elegirTipo', 'simular'], { tipo: 'trad-ars', tipoDraft: 'trad-ars', montoTexto: '1000', dias: 30 }, 'tipo')],
-    ['07 · Elegir cuenta', (nav) => nav.goto(['plazoFijo', 'elegirTipo', 'simular', 'elegirCuenta'], { tipo: 'trad-ars', montoTexto: '1000', dias: 30, cuenta: 'ca-3843' })],
-    ['08 · Revisar datos', (nav) => nav.goto(['plazoFijo', 'elegirTipo', 'simular', 'elegirCuenta', 'revisar'], { tipo: 'trad-ars', montoTexto: '1000', dias: 30, cuenta: 'ca-3843' })],
-  ]],
-  ['Estados alternativos', [
-    ['A · Monto menor al mínimo', (nav) => nav.goto(['plazoFijo', 'elegirTipo', 'simular'], { tipo: 'trad-ars', montoTexto: '500', dias: 30, montoTocado: true })],
-    ['B · Saldo insuficiente', (nav) => nav.goto(['plazoFijo', 'elegirTipo', 'simular', 'elegirCuenta'], { tipo: 'trad-ars', montoTexto: '5000', dias: 30, cuenta: null })],
-    ['C · Error de conexión', (nav, dispatch) => { dispatch({ type: 'escenario', patch: { red: 'error' } }); nav.goto(['plazoFijo', 'elegirTipo', 'simular'], { tipo: 'trad-ars', montoTexto: '1000', dias: 30 }); }],
-    ['D · Operación pendiente', (nav, dispatch) => { dispatch({ type: 'escenario', patch: { banco: 'pendiente' } }); nav.goto(['plazoFijo', 'elegirTipo', 'simular', 'elegirCuenta', 'revisar'], { tipo: 'trad-ars', montoTexto: '1000', dias: 30, cuenta: 'ca-3843' }); }],
-  ]],
-];
-
-function Panel({ s, dispatch, nav }) {
+function Panel({ s, dispatch, nav, jump }) {
   const current = s.stack[s.stack.length - 1];
   return (
     <aside className="panel">
@@ -89,8 +72,8 @@ function Panel({ s, dispatch, nav }) {
         {JUMPS.map(([group, items]) => (
           <div key={group} className="jump-group">
             <p className="t-label-lg c-primary">{group}</p>
-            {items.map(([label, fn]) => (
-              <button key={label} className="jump t-body-md" onClick={() => fn(nav, dispatch)}>{label}</button>
+            {items.map(([key, label]) => (
+              <button key={key} className="jump t-body-md" onClick={() => jump(key)}>{label}</button>
             ))}
           </div>
         ))}
@@ -124,7 +107,7 @@ function Panel({ s, dispatch, nav }) {
   );
 }
 
-export function DeviceShell({ s, dispatch, nav, children }) {
+export function DeviceShell({ s, dispatch, nav, jump, children }) {
   const mode = useDeviceMode();
   const k = useScale();
   const overlay = !!s.sheet;
@@ -134,7 +117,7 @@ export function DeviceShell({ s, dispatch, nav, children }) {
 
   return (
     <div className="desk">
-      <Panel s={s} dispatch={dispatch} nav={nav} />
+      <Panel s={s} dispatch={dispatch} nav={nav} jump={jump} />
       <div className="stage" style={{ width: 384 * k, height: 824 * k }}>
         <div className="phone" style={{ transform: `scale(${k})` }}>
           <div className="phone-screen">

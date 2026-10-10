@@ -1,28 +1,28 @@
 // Datos ilustrativos del prototipo (no son condiciones reales del banco).
 export const TIPOS = {
   'trad-ars': {
-    id: 'trad-ars', nombre: 'Tradicional en pesos', moneda: 'ARS', tna: 19.5, uva: false,
+    id: 'trad-ars', corto: 'Tradicional en pesos', nombre: 'Tradicional en pesos', moneda: 'ARS', tna: 19.5, uva: false,
     descripcion: 'Es el plazo fijo más simple: conocés la ganancia exacta en pesos desde el comienzo.',
     corta: 'Sabés desde el comienzo cuánto vas a ganar.',
     etiquetas: [['exito', 'Ganancia fija'], ['marca', 'Desde 30 días']],
     plazos: [30, 60, 90], min: 30, max: 365,
   },
   'trad-usd': {
-    id: 'trad-usd', nombre: 'Tradicional en dólares', moneda: 'USD', tna: 1, uva: false,
+    id: 'trad-usd', corto: 'Tradicional en dólares', nombre: 'Tradicional en dólares', moneda: 'USD', tna: 1, uva: false,
     descripcion: 'Conocés la ganancia exacta en dólares desde el comienzo.',
     corta: 'Conocés la ganancia exacta en dólares desde el comienzo.',
     etiquetas: [['exito', 'Ganancia fija'], ['marca', 'Desde 30 días']],
     plazos: [30, 60, 90], min: 30, max: 365,
   },
   'pre-uva': {
-    id: 'pre-uva', nombre: 'Precancelable UVA en pesos', moneda: 'ARS', tna: 1, uva: true, precancelable: true,
+    id: 'pre-uva', corto: 'Precancelable UVA', nombre: 'Precancelable UVA en pesos', moneda: 'ARS', tna: 1, uva: true, precancelable: true,
     descripcion: 'Se actualiza según la inflación. Podés retirarlo desde los 30 días de constituido.',
     corta: 'Se ajusta por inflación y podés retirarlo antes del vencimiento.',
     etiquetas: [['advertencia', 'Ajusta por inflación'], ['marca', 'Retiro desde el día 30']],
     plazos: [180, 270, 365], min: 180, max: 365,
   },
   'aj-uva': {
-    id: 'aj-uva', nombre: 'Ajustable por UVA en pesos', moneda: 'ARS', tna: 1, uva: true,
+    id: 'aj-uva', corto: 'Ajustable por UVA', nombre: 'Ajustable por UVA en pesos', moneda: 'ARS', tna: 1, uva: true,
     descripcion: 'Ajusta tu capital todos los días según la inflación.',
     corta: 'Se ajusta por inflación hasta el vencimiento.',
     etiquetas: [['advertencia', 'Ajusta por inflación'], ['neutro', 'Sin retiro anticipado']],
