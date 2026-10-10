@@ -1,0 +1,218 @@
+/* Tokens exportados de Figma (Sandbox · Plazo fijo). Nombres = code syntax WEB de cada variable. */
+:root {
+  /* Primitivos */
+  --prim-neutral-0: #FFFFFF;
+  --prim-neutral-50: #F8FAFA;
+  --prim-neutral-100: #F0F2F2;
+  --prim-neutral-200: #E9EAEB;
+  --prim-neutral-300: #DEDFDF;
+  --prim-neutral-400: #A3A6A6;
+  --prim-neutral-500: #6B7071;
+  --prim-neutral-600: #4F5354;
+  --prim-neutral-700: #393B3C;
+  --prim-neutral-800: #242525;
+  --prim-neutral-900: #111111;
+  --prim-neutral-1000: #000000;
+  --prim-blue-50: #ECF3FF;
+  --prim-blue-100: #C6DAFF;
+  --prim-blue-200: #88A8EB;
+  --prim-blue-300: #4A6FCE;
+  --prim-blue-400: #305DBE;
+  --prim-blue-500: #0839E8;
+  --prim-blue-600: #083DCC;
+  --prim-blue-700: #1843A5;
+  --prim-blue-800: #07297A;
+  --prim-blue-900: #00114E;
+  --prim-navy-50: #E5F0F8;
+  --prim-navy-100: #C6DCEE;
+  --prim-navy-200: #99C1E3;
+  --prim-navy-300: #699ED1;
+  --prim-navy-400: #3678BB;
+  --prim-navy-500: #00529E;
+  --prim-navy-600: #034382;
+  --prim-navy-700: #033568;
+  --prim-navy-800: #002751;
+  --prim-navy-900: #001A3A;
+  --prim-lavender-50: #F8F7FC;
+  --prim-lavender-100: #ECEDFC;
+  --prim-lavender-200: #CCCEEA;
+  --prim-lavender-300: #AEAFD7;
+  --prim-lavender-400: #9092C4;
+  --prim-lavender-500: #7475AE;
+  --prim-lavender-600: #5A5A94;
+  --prim-lavender-700: #424175;
+  --prim-lavender-800: #2C2A55;
+  --prim-lavender-900: #171536;
+  --prim-sky-50: #E4F2FC;
+  --prim-sky-100: #D2EBFF;
+  --prim-sky-200: #B5DDFE;
+  --prim-sky-300: #8BC7FE;
+  --prim-sky-400: #5AADFC;
+  --prim-sky-500: #1F90FA;
+  --prim-sky-600: #0077E8;
+  --prim-sky-700: #005BB5;
+  --prim-sky-800: #043973;
+  --prim-sky-900: #001A3B;
+  --prim-green-50: #E4F5E9;
+  --prim-green-100: #CCEFD6;
+  --prim-green-200: #A4E2B6;
+  --prim-green-300: #78CD92;
+  --prim-green-400: #48B46C;
+  --prim-green-500: #1B994D;
+  --prim-green-600: #0A7E39;
+  --prim-green-700: #006428;
+  --prim-green-800: #034119;
+  --prim-green-900: #002209;
+  --prim-amber-50: #FFF4E0;
+  --prim-amber-100: #FFE8C4;
+  --prim-amber-200: #FED28C;
+  --prim-amber-300: #F3B555;
+  --prim-amber-400: #DE9619;
+  --prim-amber-500: #BE7D15;
+  --prim-amber-600: #A56701;
+  --prim-amber-700: #8A5300;
+  --prim-amber-800: #573303;
+  --prim-amber-900: #291500;
+  --prim-red-50: #FDECEC;
+  --prim-red-100: #FFE0DF;
+  --prim-red-200: #FECAC9;
+  --prim-red-300: #FDA9A6;
+  --prim-red-400: #FE7D7A;
+  --prim-red-500: #F25353;
+  --prim-red-600: #DF3134;
+  --prim-red-700: #C4161C;
+  --prim-red-800: #7C030A;
+  --prim-red-900: #3A0002;
+  --prim-pink-50: #FEF2FF;
+  --prim-pink-100: #FDD9FF;
+  --prim-pink-200: #FEC3F7;
+  --prim-pink-300: #FFA3E6;
+  --prim-pink-400: #FA7ECC;
+  --prim-pink-500: #DE4FAE;
+  --prim-pink-600: #BB1F8E;
+  --prim-pink-700: #8D0B69;
+  --prim-pink-800: #5F0346;
+  --prim-pink-900: #350125;
+  --prim-black-alpha-50: rgba(0, 0, 0, 0.5);
+  --prim-black-alpha-16: rgba(0, 0, 0, 0.16);
+  --prim-black-alpha-12: rgba(0, 0, 0, 0.12);
+  --prim-black-alpha-8: rgba(0, 0, 0, 0.08);
+
+  /* Color (semánticos · modo Light) */
+  --color-bg-page: var(--prim-lavender-50);
+  --color-bg-surface: var(--prim-neutral-0);
+  --color-bg-surface-subtle: var(--prim-neutral-50);
+  --color-bg-header: var(--prim-lavender-100);
+  --color-bg-brand: var(--prim-blue-500);
+  --color-bg-brand-pressed: var(--prim-blue-700);
+  --color-bg-brand-subtle: var(--prim-blue-50);
+  --color-bg-selected: var(--prim-navy-500);
+  --color-bg-selected-subtle: var(--prim-navy-50);
+  --color-bg-disabled: var(--prim-neutral-200);
+  --color-bg-skeleton: var(--prim-neutral-200);
+  --color-bg-scrim: var(--prim-black-alpha-50);
+  --color-bg-info: var(--prim-sky-50);
+  --color-bg-success: var(--prim-green-50);
+  --color-bg-warning: var(--prim-amber-50);
+  --color-bg-error: var(--prim-red-50);
+  --color-bg-accent: var(--prim-pink-100);
+  --color-bg-status-bar: var(--prim-blue-500);
+  --color-bg-system-nav: var(--prim-neutral-1000);
+  --color-bg-track: var(--prim-neutral-100);
+  --color-text-primary: var(--prim-neutral-900);
+  --color-text-secondary: var(--prim-neutral-600);
+  --color-text-tertiary: var(--prim-neutral-500);
+  --color-text-inverse: var(--prim-neutral-0);
+  --color-text-brand: var(--prim-blue-700);
+  --color-text-link: var(--prim-blue-500);
+  --color-text-disabled: var(--prim-neutral-500);
+  --color-text-info: var(--prim-sky-700);
+  --color-text-success: var(--prim-green-700);
+  --color-text-warning: var(--prim-amber-700);
+  --color-text-error: var(--prim-red-700);
+  --color-border-default: var(--prim-neutral-300);
+  --color-border-strong: var(--prim-neutral-500);
+  --color-border-focus: var(--prim-navy-500);
+  --color-border-brand: var(--prim-blue-500);
+  --color-border-info: var(--prim-sky-600);
+  --color-border-success: var(--prim-green-700);
+  --color-border-warning: var(--prim-amber-700);
+  --color-border-error: var(--prim-red-700);
+  --color-icon-primary: var(--prim-neutral-900);
+  --color-icon-secondary: var(--prim-neutral-500);
+  --color-icon-brand: var(--prim-navy-500);
+  --color-icon-inverse: var(--prim-neutral-0);
+  --color-icon-accent: var(--prim-pink-400);
+  --color-icon-info: var(--prim-sky-600);
+  --color-icon-success: var(--prim-green-700);
+  --color-icon-warning: var(--prim-amber-700);
+  --color-icon-error: var(--prim-red-700);
+  --color-shadow-sm: var(--prim-black-alpha-8);
+  --color-shadow-md: var(--prim-black-alpha-12);
+  --color-shadow-lg: var(--prim-black-alpha-16);
+
+  /* Dimensiones */
+  --spacing-none: 0px;
+  --spacing-3xs: 2px;
+  --spacing-2xs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 40px;
+  --spacing-4xl: 48px;
+  --spacing-5xl: 64px;
+  --radius-none: 0px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+  --size-icon-sm: 16px;
+  --size-icon-md: 20px;
+  --size-icon-lg: 24px;
+  --size-touch-min: 48px;
+  --size-button-height: 48px;
+  --size-input-height: 56px;
+  --size-header-height: 56px;
+  --size-status-bar: 24px;
+  --size-nav-bar: 48px;
+  --size-screen-width: 360px;
+  --size-screen-height: 800px;
+  --border-width-default: 1px;
+  --border-width-strong: 2px;
+  --border-width-focus: 2px;
+
+  /* Tipografía */
+  --font-family-base: "Roboto", system-ui, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-letter-spacing-default: 0px;
+
+  /* Elevación */
+  --elevation-1: 0px 1px 2px 0px var(--color-shadow-md), 0px 1px 3px 1px var(--color-shadow-sm);
+  --elevation-2: 0px 2px 6px 2px var(--color-shadow-sm), 0px 1px 2px 0px var(--color-shadow-md);
+  --elevation-3: 0px -4px 16px 0px var(--color-shadow-md);
+  --elevation-4: 0px 8px 24px 4px var(--color-shadow-lg), 0px 2px 6px 0px var(--color-shadow-sm);
+}
+
+/* Estilos de texto (Figma text styles) */
+.t-display-amount { font-size: 28px; line-height: 36px; font-weight: 700; }
+.t-display-input { font-size: 28px; line-height: 36px; font-weight: 400; }
+.t-headline-sm { font-size: 24px; line-height: 32px; font-weight: 700; }
+.t-title-lg { font-size: 20px; line-height: 28px; font-weight: 500; }
+.t-title-md { font-size: 16px; line-height: 24px; font-weight: 500; }
+.t-body-lg { font-size: 16px; line-height: 24px; font-weight: 400; }
+.t-body-md { font-size: 14px; line-height: 20px; font-weight: 400; }
+.t-body-sm { font-size: 12px; line-height: 16px; font-weight: 400; }
+.t-label-lg { font-size: 14px; line-height: 20px; font-weight: 500; }
+.t-label-md { font-size: 12px; line-height: 16px; font-weight: 500; }
+.t-label-sm { font-size: 11px; line-height: 16px; font-weight: 500; }
+.t-title-md-bold { font-size: 16px; line-height: 24px; font-weight: 700; }
+.t-body-md-bold { font-size: 14px; line-height: 20px; font-weight: 700; }
+.t-label-lg-underline { font-size: 14px; line-height: 20px; font-weight: 500; text-decoration: underline; }
+.t-label-md-underline { font-size: 12px; line-height: 16px; font-weight: 500; text-decoration: underline; }
