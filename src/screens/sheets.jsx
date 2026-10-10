@@ -94,7 +94,7 @@ function SheetFecha({ s, set, close }) {
           <input id="dias" className="t-display-input" inputMode="numeric" value={dias} onChange={(e) => setDias(e.target.value.replace(/\D/g, '').slice(0, 3))} />
           <span className="t-body-lg c-tertiary">días</span>
         </div>
-        <p className={`help t-body-sm ${valido ? 'c-tertiary' : 'c-error'}`}>Entre {t.min} y {t.max} días</p>
+        <p className={`help t-body-sm ${valido ? 'c-tertiary' : 'c-error'}`}>{valido ? `Entre ${t.min} y ${t.max} días` : `Elegí un plazo de entre ${t.min} y ${t.max} días.`}</p>
       </div>
       <label className="date-pick">
         <Icon name="calendar" size={20} color="var(--color-icon-brand)" />

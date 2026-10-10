@@ -13,19 +13,15 @@ export default function App() {
   const sRef = useRef(s);
   sRef.current = s;
   const depth = useRef(0);
-  const ignorePop = useRef(false);
-  const pending = useRef(0);
 
   const set = useCallback((patch) => dispatch({ type: 'set', patch }), []);
 
   const pushHistory = () => { depth.current += 1; history.pushState({ d: depth.current }, ''); };
-  const flushPending = () => { while (pending.current > 0) { pending.current -= 1; pushHistory(); } };
 
   // Navegación conectada al historial: el botón atrás del navegador/Android cierra hojas y vuelve de pantalla.
   useEffect(() => {
     history.replaceState({ d: 0 }, '');
     const onPop = () => {
-      if (ignorePop.current) { ignorePop.current = false; flushPending(); return; }
       depth.current = Math.max(0, depth.current - 1);
       dispatch({ type: 'back' });
     };
@@ -33,11 +29,11 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  // Vuelve el historial al inicio y luego agrega `n` entradas (para saltos directos a una pantalla).
+  // Saltos directos (inicio, ?pantalla=, panel): agrega `n` entradas propias para que "atrás" recorra el stack.
+  // Nunca usa history.go: rebobinar podía salir del prototipo si la pestaña venía de otra página.
   const resetHistory = (n) => {
-    pending.current = n;
-    if (depth.current > 0) { ignorePop.current = true; history.go(-depth.current); depth.current = 0; }
-    else flushPending();
+    depth.current = 0;
+    for (let i = 0; i < n; i++) pushHistory();
   };
 
   const nav = {

@@ -120,7 +120,7 @@ export function Simular({ s, set, nav, dispatch }) {
       footerSecondary={s.calculo === 'error' || err ? null : <Button variant="secondary" onClick={nav.home}>Volver a Plazo Fijo</Button>}
     >
       {s.calculo === 'error' && (
-        <Alert tone="error" title="No pudimos calcular la simulación">Revisá tu conexión. Guardamos el monto y el plazo que elegiste.</Alert>
+        <Alert tone="error" title="Tuvimos un inconveniente al cargar la información">Por favor, volvé a intentar más tarde.</Alert>
       )}
       <SelectField label="Tipo de plazo fijo" value={t.nombre} onClick={() => { set({ tipoDraft: s.tipo }); nav.sheet('tipo'); }} />
       <AmountField
@@ -236,8 +236,8 @@ export function ElegirCuenta({ s, set, nav }) {
           );
         })}
         {!alguna && (
-          <Alert tone="error" title="Saldo insuficiente">
-            Ninguna de tus cuentas tiene {dinero(monto, t.moneda, false)}. Cambiá el monto o ingresá dinero a tu cuenta.
+          <Alert tone="error" title="Tus cuentas no tienen saldo suficiente">
+            Elegí un monto menor o ingresá dinero en una de tus cuentas.
           </Alert>
         )}
       </div>

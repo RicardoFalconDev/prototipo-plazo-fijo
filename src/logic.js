@@ -96,7 +96,7 @@ export const montoNumero = (s) => Number(String(s).replace(/\D/g, '')) || 0;
 export function errorMonto(monto, tipo) {
   const m = MONEDAS[TIPOS[tipo].moneda];
   if (!monto) return null;
-  if (monto < m.minimo) return `Ingresá un monto de ${dinero(m.minimo, TIPOS[tipo].moneda, false)} o más`;
+  if (monto < m.minimo) return `El monto mínimo es de ${dinero(m.minimo, TIPOS[tipo].moneda, false)}. Ingresá un monto mayor.`;
   return null;
 }
 
