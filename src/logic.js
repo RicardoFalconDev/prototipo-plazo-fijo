@@ -37,7 +37,7 @@ export const MONEDAS = {
 
 export const CUENTAS = {
   ARS: [
-    { id: 'ca-3643', nombre: 'Caja de Ahorro $...3643', saldo: 1000 },
+    { id: 'ca-3643', nombre: 'Caja de Ahorro $...3643', saldo: 1250600 },
     { id: 'ca-3843', nombre: 'Caja de Ahorro $...3843', saldo: 2000 },
   ],
   USD: [{ id: 'cu-1122', nombre: 'Caja de Ahorro US$...1122', saldo: 800 }],

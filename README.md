@@ -17,7 +17,7 @@ Ej.: `https://ricardofalcondev.github.io/prototipo-plazo-fijo/?pantalla=08`
 
 ## Qué se puede probar
 - Simulación en vivo: tipo de plazo fijo, monto, plazo (30/60/90 o fecha personalizada) y resultado con ganancia, vencimiento (corrido a día hábil) y TNA.
-- Estados: monto menor al mínimo, saldo insuficiente (probá con $ 5.000), error de conexión (`?pantalla=C`) y operación pendiente (`?pantalla=D`).
+- Estados: monto menor al mínimo, saldo insuficiente (probá con $ 1.500.000), error de conexión (`?pantalla=C`) y operación pendiente (`?pantalla=D`).
 - Ayuda "¿Qué es un plazo fijo?" y "¿Qué es la TNA?".
 - Analítica de demostración en la consola del navegador (`[analytics]`).
 

@@ -19,7 +19,7 @@ export const JUMPS = [
   ]],
   ['Estados alternativos', [
     ['A', 'A · Monto menor al mínimo', { stack: SIM, patch: { ...base, montoTexto: '500', dias: null } }],
-    ['B', 'B · Saldo insuficiente', { stack: [...SIM, 'elegirCuenta'], patch: { ...base, montoTexto: '5000', cuenta: null } }],
+    ['B', 'B · Saldo insuficiente', { stack: [...SIM, 'elegirCuenta'], patch: { ...base, montoTexto: '1500000', cuenta: null } }],
     ['C', 'C · Error de conexión', { stack: SIM, patch: { ...base, escenario: { banco: 'ok', red: 'error' } } }],
     ['D', 'D · Operación pendiente', { stack: ['inicio', 'plazoFijo', 'resultado'], patch: { ...base, cuenta: 'ca-3643', resultado: 'pendiente', demoInversion: true } }],
   ]],

@@ -257,7 +257,7 @@ export function Inicio({ set, nav }) {
             <Ojo />
           </div>
           <Carrusel className="home-accounts">
-            <Cuenta titulo="Caja de Ahorro $...3643" saldo="$ 1.000,00" acciones={[['transferir', 'Transferir'], ['usd', 'Comprar'], ['alias', 'Alias/CBU']]} />
+            <Cuenta titulo="Caja de Ahorro $...3643" saldo="$ 1.250.600,00" acciones={[['transferir', 'Transferir'], ['usd', 'Comprar'], ['alias', 'Alias/CBU']]} />
             <Cuenta titulo="Cuenta de Ahorro" saldo="USD 0,00" acciones={[['transferir', 'Transferir'], ['usd', 'Vender'], ['alias', 'Alias/CBU']]} />
           </Carrusel>
         </header>

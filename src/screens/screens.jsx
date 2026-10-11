@@ -61,8 +61,8 @@ export function PlazoFijo({ s, set, nav }) {
           <div className="simulate-head">
             <img src={asset('ilustracion-ahorro.svg')} width="72" height="77" alt="" />
             <div className="simulate-text">
-              <p className="t-title-md c-primary">Hacé rendir tus ahorros</p>
-              <p className="t-body-md c-secondary pre-line">{'Descubrí cuánto podrías ganar\ncon un plazo fijo.'}</p>
+              <p className="t-title-md c-primary">Tus ahorros pueden seguir creciendo</p>
+              <p className="t-body-md c-secondary">Simulá otro plazo fijo y descubrí cuánto podrías ganar.</p>
             </div>
           </div>
           <Button onClick={() => empezar('tenencias')}>Simular</Button>
@@ -151,7 +151,6 @@ export function Simular({ s, set, nav, dispatch }) {
             set({ cuenta: ok ? ok.id : null });
             nav.push('elegirCuenta');
           }}>Constituir</Button>}
-      footerSecondary={s.calculo === 'error' || err ? null : <Button variant="secondary" onClick={nav.home}>Volver a Plazo Fijo</Button>}
     >
       {s.calculo === 'error' && (
         <Alert tone="error" title="Tuvimos un inconveniente al cargar la información">Por favor, volvé a intentar más tarde.</Alert>
@@ -176,14 +175,27 @@ export function Simular({ s, set, nav, dispatch }) {
           </TermChip>
         </div>
       </div>
-      <Result fase={!valido || s.calculo === 'error' ? 'vacio' : listo ? 'datos' : 'esqueleto'} t={t} r={r} />
+      {/* Sin estado vacío (Figma 06): la tarjeta aparece recién con monto y plazo válidos. */}
+      <AnimatePresence initial={false}>
+        {valido && s.calculo !== 'error' && (
+          <motion.div
+            key="resultado"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: DUR.medium, ease: EASE.enter } }}
+            exit={{ opacity: 0, y: 8, transition: { duration: DUR.short, ease: EASE.exit } }}
+            onUpdate={noop}
+          >
+            <Result fase={listo ? 'datos' : 'esqueleto'} t={t} r={r} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Screen>
   );
 }
 
 const noop = () => {};
 
-// fase: 'vacio' | 'esqueleto' (el servicio todavía no respondió) | 'datos' (respuesta para los datos actuales).
+// fase: 'esqueleto' (el servicio todavía no respondió) | 'datos' (respuesta para los datos actuales).
 function Result({ fase, t, r }) {
   const moneda = t.moneda;
   const loading = fase === 'esqueleto';
@@ -213,14 +225,8 @@ function Result({ fase, t, r }) {
             exit={{ opacity: 0, transition: { duration: fase === 'datos' ? 0 : 0.15, ease: EASE.exit } }}
             // onUpdate fuerza la animación por JS: la versión acelerada (WAAPI) deja un cuadro en opacidad 0 al terminar.
             onUpdate={noop}
-            className={fase === 'vacio' ? 'result-empty-inner' : 'result-inner'}
+            className="result-inner"
           >
-            {fase === 'vacio' && (
-              <>
-                <p className="t-title-md c-primary">Rendimiento de tu plazo fijo</p>
-                <p className="t-body-md c-secondary">Ingresá un monto y elegí el plazo para ver el rendimiento estimado y la fecha de vencimiento.</p>
-              </>
-            )}
             {fase === 'esqueleto' && esqueleto}
             {fase === 'datos' && (
               <>
@@ -252,6 +258,8 @@ export function ElegirCuenta({ s, set, nav }) {
       footer={alguna
         ? <Button disabled={!s.cuenta} onClick={() => nav.push('revisar')}>Continuar</Button>
         : <Button onClick={() => { set({ focoMonto: true }); nav.back(); }}>Cambiar monto</Button>}
+      // Saldo insuficiente: segunda salida que propone el aviso (solo visual en el prototipo).
+      footerSecondary={alguna ? null : <Button variant="secondary" onClick={() => track('pf_add_money', { origen: 'saldo_insuficiente' })}>Ingresar dinero</Button>}
     >
       <h2 className="t-title-md c-primary">Plazo fijo {t.nombre.charAt(0).toLowerCase() + t.nombre.slice(1)}</h2>
       <Card className="card-stack">
@@ -260,6 +268,12 @@ export function ElegirCuenta({ s, set, nav }) {
         <div className="card-divider" />
         <EditableRow compact label="Invertís" value={dinero(monto, t.moneda)} action="Modificar" onEdit={() => { set({ focoMonto: true }); nav.back(); }} last />
       </Card>
+      {/* El aviso va arriba de las cuentas: explica por qué ninguna se puede elegir. */}
+      {!alguna && (
+        <Alert tone="error" title="Tus cuentas no tienen saldo suficiente">
+          Elegí un monto menor o ingresá dinero en una de tus cuentas.
+        </Alert>
+      )}
       <div className="stack-xs" role="radiogroup" aria-label="Cuenta a debitar">
         <p className="t-title-md c-primary">¿Desde qué cuenta querés invertir?</p>
         {cuentas.map((c) => {
@@ -269,11 +283,6 @@ export function ElegirCuenta({ s, set, nav }) {
               disabled={falta} note={falta && alguna ? 'Saldo insuficiente para este monto' : null} onClick={() => set({ cuenta: c.id })} />
           );
         })}
-        {!alguna && (
-          <Alert tone="error" title="Tus cuentas no tienen saldo suficiente">
-            Elegí un monto menor o ingresá dinero en una de tus cuentas.
-          </Alert>
-        )}
       </div>
     </Screen>
   );
