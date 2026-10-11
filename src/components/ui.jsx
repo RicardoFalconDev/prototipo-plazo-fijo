@@ -99,8 +99,8 @@ export function Alert({ tone = 'info', title, children }) {
       initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: EASE.enter }} onUpdate={noopMotion}>
       <Icon name={icon} size={20} color="currentColor" />
       <div className="alert-text">
-        {title && <p className="t-label-lg c-primary">{title}</p>}
-        <p className="t-body-md c-secondary">{children}</p>
+        {title && <p className="t-label-md c-primary">{title}</p>}
+        <p className="t-body-sm c-secondary">{children}</p>
       </div>
     </motion.div>
   );

@@ -178,7 +178,10 @@ button.icon-btn:active { background: var(--color-bg-brand-subtle); }
   background: var(--color-bg-surface); border: var(--border-width-default) solid var(--color-border-default); border-radius: var(--radius-md);
 }
 .account.on { border: var(--border-width-focus) solid var(--color-border-focus); }
-.account:disabled { cursor: not-allowed; }
+.account:disabled { cursor: not-allowed; background: var(--color-bg-disabled); }
+/* Cuenta deshabilitada (Figma: Card de cuenta · Estado=Deshabilitado). La nota de error mantiene su color. */
+.account:disabled .c-primary, .account:disabled .c-secondary { color: var(--color-text-disabled); }
+.account:disabled .radio { border-color: var(--color-border-default); }
 
 .result-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-sm); padding-top: var(--spacing-xs); }
 .badge-icon { width: 80px; height: 80px; border-radius: var(--radius-full); display: grid; place-items: center; }
