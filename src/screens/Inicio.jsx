@@ -260,7 +260,7 @@ export function Inicio({ set, nav }) {
           <div className="home-section">
             <p className="home-title">Para vos</p>
             <Carrusel className="home-hscroll">
-              <button className="home-service is-link" onClick={simular} aria-label="Hacé rendir tus ahorros. Simular plazo fijo">
+              <button className="home-service is-link" onClick={simular} aria-label="Tus ahorros pueden rendir más. Simular plazo fijo">
                 <img draggable={false} className="home-img" src={`${IMG}s1.webp`} alt="" />
               </button>
               <img draggable={false} className="home-img home-service" src={`${IMG}s2.webp`} alt="¡Recargá todo desde la app! Ir a Recargar" />
