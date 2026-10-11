@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AppBar } from '../components/ui.jsx';
+import { AppBar, Icon } from '../components/ui.jsx';
 import { NavPrincipal, useEntradaDeTab } from './Inicio.jsx';
 import { track } from '../logic.js';
 import { asset } from '../asset.js';
@@ -32,9 +32,10 @@ function Esqueleto({ forma }) {
 }
 
 // Reserva el tamaño exacto de la card (aspect-ratio) y superpone esqueleto y contenido.
-function Ranura({ forma, listo, children }) {
+function Ranura({ forma, listo, alto, children }) {
+  // alto fijo para cards en código (layout fluido); proporción fija para cards exportadas como imagen.
   return (
-    <div className={`inv-slot ${listo ? 'listo' : ''}`} style={{ aspectRatio: `332 / ${ESQUELETOS[forma].h}` }} aria-busy={!listo}>
+    <div className={`inv-slot ${listo ? 'listo' : ''}`} style={alto ? { height: alto } : { aspectRatio: `332 / ${ESQUELETOS[forma].h}` }} aria-busy={!listo}>
       <Esqueleto forma={forma} />
       <div className="inv-content">{children}</div>
     </div>
@@ -60,16 +61,22 @@ export function Inversiones({ nav }) {
         <Ranura forma="dolares" listo={listo}>
           <img draggable={false} className="inv-card" src={IMG(`dolares.webp`)} alt="Comprar y vender dólares. USD 0,00. Compra: $ 1.540. Venta: $ 1.480." />
         </Ranura>
-        <Ranura forma="plazo" listo={listo}>
+        <Ranura forma="plazo" listo={listo} alto={139}>
+          {/* Card / Plazo fijo en código (Figma 90:6981): los textos pueden cambiar sin reexportar. */}
           <div
-            className="inv-card inv-link" role="button" tabIndex={listo ? 0 : -1} onClick={abrirPlazoFijo}
+            className="pf-card inv-link" role="button" tabIndex={listo ? 0 : -1} onClick={abrirPlazoFijo}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirPlazoFijo(); } }}
-            aria-label="Plazo fijo. Simulá un plazo fijo y conocé cuánto podrías ganar antes de invertir."
           >
-            <img draggable={false} src={IMG(`plazo-fijo.webp`)} alt="" />
-            <button className="inv-hit" style={{ left: '3.61%', top: '76.26%', width: '44.88%', height: '15.11%' }} onClick={simular} tabIndex={listo ? 0 : -1}>
-              <span className="sr-only">Simular</span>
-            </button>
+            <p className="t-body-md c-primary">Plazo fijo</p>
+            <div className="pf-info">
+              <span className="pf-ilustracion"><img src={asset('ilustraciones/plazo-fijo.svg')} width="47" height="50" alt="" draggable={false} /></span>
+              <p className="t-body-sm c-tertiary">Simulá un plazo fijo y conocé cuánto podrías ganar antes de invertir.</p>
+              <Icon name="chevron-right" size={20} />
+            </div>
+            <div className="pf-acciones">
+              <button className="accion-card t-body-sm" onClick={simular} tabIndex={listo ? 0 : -1}>Simular</button>
+              <span className="accion-card t-body-sm">Consultá las tasas</span>
+            </div>
           </div>
         </Ranura>
         <Ranura forma="fondos" listo={listo}>

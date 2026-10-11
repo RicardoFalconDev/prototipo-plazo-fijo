@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Icon } from '../components/ui.jsx';
 import { track } from '../logic.js';
 import { asset } from '../asset.js';
@@ -186,6 +186,34 @@ function Carrusel({ className, children }) {
   return <div ref={ref} className={className}>{children}</div>;
 }
 
+// Tarjeta de servicio "Plazo fijo" en código (Figma: Tarjeta de servicio 79:2508, 316 × 116, con tokens).
+// En la pantalla de Inicio las tarjetas de "Para vos" se muestran a escala (87,5% del ancho), igual que en Figma.
+const SVC_W = 316, SVC_H = 116;
+function TarjetaPlazoFijo({ onClick }) {
+  const ref = useRef(null);
+  const [k, setK] = useState(287 / SVC_W);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const ro = new ResizeObserver(() => setK(el.clientWidth / SVC_W));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <button ref={ref} className="svc-slot is-link" style={{ height: SVC_H * k }} onClick={onClick}>
+      <span className="svc-card" style={{ transform: `scale(${k})` }}>
+        <span className="svc-texto">
+          <span className="svc-info">
+            <span className="t-body-md c-primary">Tus ahorros pueden rendir más</span>
+            <span className="t-body-sm c-secondary pre-line">{'Descubrí cuánto podrías ganar\ncon un plazo fijo.'}</span>
+          </span>
+          <span className="svc-accion t-body-sm c-primary">Simular plazo fijo <Icon name="chevron-right" size={12} /></span>
+        </span>
+        <img className="svc-ilustracion" src={asset('ilustraciones/ahorro.svg')} width="93" height="99" alt="" draggable={false} />
+      </span>
+    </button>
+  );
+}
+
 // Cambio de pestaña: la pantalla que entra hace "fade through" (Material) y la barra queda quieta.
 let ultimoCambioDeTab = 0;
 export const useEntradaDeTab = () => useState(() => (Date.now() - ultimoCambioDeTab < 600 ? 'tab-in' : ''))[0];
@@ -261,9 +289,7 @@ export function Inicio({ set, nav }) {
           <div className="home-section">
             <p className="home-title">Para vos</p>
             <Carrusel className="home-hscroll">
-              <button className="home-service is-link" onClick={simular} aria-label="Tus ahorros pueden rendir más. Simular plazo fijo">
-                <img draggable={false} className="home-img" src={IMG(`s1.webp`)} alt="" />
-              </button>
+              <TarjetaPlazoFijo onClick={simular} />
               <img draggable={false} className="home-img home-service" src={IMG(`s2.webp`)} alt="¡Recargá todo desde la app! Ir a Recargar" />
               <img draggable={false} className="home-img home-service" src={IMG(`s3.webp`)} alt="Pagá tus servicios desde acá. Ir a pagar" />
               <img draggable={false} className="home-img home-service" src={IMG(`s4.webp`)} alt="Asegurá tu hogar. Ir a pagar" />

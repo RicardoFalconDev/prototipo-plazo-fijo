@@ -330,3 +330,20 @@ button.home-service .home-img { width: 100%; }
 .inter-item { position: absolute; left: 29px; width: 304px; height: 40px; display: flex; align-items: center; gap: 17px; font-size: 14px; line-height: 20px; }
 .inter-icono { width: 40px; height: 40px; display: grid; place-items: center; flex: none; }
 .inter-acciones { position: absolute; left: 21px; top: 457px; width: 285px; display: flex; flex-direction: column; gap: var(--spacing-xs); }
+
+/* Tarjeta de servicio "Plazo fijo" (Figma 79:2508) en código */
+.svc-slot { flex: none; position: relative; width: 87.5%; max-width: 400px; padding: 0; text-align: left; scroll-snap-align: start; }
+.svc-card { position: absolute; left: 0; top: 0; width: 316px; height: 116px; transform-origin: 0 0; display: flex; align-items: center; padding-left: var(--spacing-sm); background: var(--color-bg-surface); border-radius: var(--radius-sm); box-shadow: var(--elevation-2); }
+.svc-slot:active .svc-card { background: var(--color-bg-selected-subtle); }
+.svc-texto { width: 196px; display: flex; flex-direction: column; gap: var(--spacing-2xs); }
+.svc-info { display: flex; flex-direction: column; gap: var(--spacing-3xs); }
+.svc-accion { display: inline-flex; align-items: center; }
+.svc-ilustracion { position: absolute; left: 209px; top: 8px; }
+/* Card / Plazo fijo de Inversiones (Figma 90:6981) en código */
+.pf-card { display: flex; flex-direction: column; gap: var(--spacing-xs); height: 139px; padding: var(--spacing-sm); background: var(--color-bg-surface); box-shadow: inset 0 0 0 var(--border-width-default) var(--color-border-default); border-radius: var(--radius-xs); cursor: pointer; } /* trazo interno como en Figma: no desplaza el contenido */
+.pf-info { display: flex; align-items: center; gap: var(--spacing-xs); height: 58px; }
+.pf-info p { flex: 1; }
+.pf-ilustracion { width: 52px; height: 52px; display: grid; place-items: center; flex: none; }
+.pf-acciones { display: flex; gap: var(--spacing-sm); }
+.accion-card { flex: 1; height: 21px; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--color-bg-header); color: var(--color-text-brand); }
+button.accion-card:active { filter: brightness(.95); }
