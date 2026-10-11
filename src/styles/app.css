@@ -314,3 +314,19 @@ button.home-service .home-img { width: 100%; }
 .tab-in { animation: tab-in 260ms cubic-bezier(0, 0, 0, 1) both; }
 @keyframes tab-in { from { opacity: 0; transform: scale(.98); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .tab-in { animation: none; } .inv-content, .inv-skel { transition: none; } }
+
+/* ---------- Intersticial de bienvenida (Figma 99:23782) ---------- */
+.inter-layer { position: absolute; inset: 0; z-index: 30; display: grid; place-items: center; }
+.inter-scrim { position: absolute; inset: 0; background: var(--color-bg-scrim); }
+.inter-dialog { position: relative; width: 327px; height: 585px; border-radius: var(--radius-lg); overflow: hidden; outline: none; background: var(--color-bg-brand); box-shadow: var(--elevation-4); }
+.inter-fondo { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 50% 0; pointer-events: none; }
+.inter-cerrar { position: absolute; left: 284px; top: 11px; width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--color-bg-surface); display: grid; place-items: center; }
+.inter-cerrar::before { content: ''; position: absolute; inset: -8px; } /* área táctil de 48 dp */
+.inter-titulo { position: absolute; left: 29px; top: 153px; width: 304px; margin: 0; font-family: 'Titillium Web', var(--font-family-base, Roboto), sans-serif; font-weight: 700; font-size: 36px; line-height: 40px; color: var(--color-text-inverse); }
+.inter-titulo span { color: var(--color-icon-accent); }
+.inter-desc, .inter-item { font-family: 'Inter', Roboto, sans-serif; font-weight: 400; letter-spacing: .1px; color: var(--color-text-inverse); }
+.inter-desc { position: absolute; left: 29px; top: 241px; width: 304px; margin: 0; font-size: 16px; line-height: 20px; }
+.inter-lista { list-style: none; margin: 0; padding: 0; }
+.inter-item { position: absolute; left: 29px; width: 304px; height: 40px; display: flex; align-items: center; gap: 17px; font-size: 14px; line-height: 20px; }
+.inter-icono { width: 40px; height: 40px; display: grid; place-items: center; flex: none; }
+.inter-acciones { position: absolute; left: 21px; top: 457px; width: 285px; display: flex; flex-direction: column; gap: var(--spacing-xs); }

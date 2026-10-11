@@ -12,8 +12,8 @@
 - Forzar un modo: `?modo=nativo` o `?modo=telefono`.
 
 ## Ir directo a una pantalla
-Agregá `?pantalla=` al link: `00` (inicio), `01`, `02`, `03`, `05`, `06`, `07`, `08`, `09` (flujo) o `A`, `B`, `C`, `D` (estados).
-Ej.: `https://ricardofalcondev.github.io/prototipo-plazo-fijo/?pantalla=05`
+Agregá `?pantalla=` al link con el número del frame en Figma: `01` (intersticial), `02` (inicio), `03` (inversiones), `04`, `05`, `06`, `08`, `09`, `10`, `11`, `12`, `13` (flujo) o `A`, `B`, `C`, `D` (estados).
+Ej.: `https://ricardofalcondev.github.io/prototipo-plazo-fijo/?pantalla=08`
 
 ## Qué se puede probar
 - Simulación en vivo: tipo de plazo fijo, monto, plazo (30/60/90 o fecha personalizada) y resultado con ganancia, vencimiento (corrido a día hábil) y TNA.

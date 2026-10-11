@@ -3,17 +3,19 @@ const SIM = ['inicio', 'plazoFijo', 'elegirTipo', 'simular'];
 const base = { tipo: 'trad-ars', tipoDraft: 'trad-ars', montoTexto: '1000', dias: 30, montoTocado: true, escenario: { banco: 'ok', red: 'ok' } };
 
 export const JUMPS = [
-  ['Flujo principal', [
-    ['00', '00 · Inicio', { stack: ['inicio'], patch: {} }],
-    ['IN', 'Inversiones', { stack: ['inicio', 'inversiones'], patch: {} }],
-    ['01', '01 · Plazo fijo', { stack: ['inicio', 'plazoFijo'], patch: { montoTexto: '', dias: null, inversiones: [] } }],
-    ['02', '02 · Elegir tipo', { stack: ['inicio', 'plazoFijo', 'elegirTipo'], patch: { tipoDraft: null } }],
-    ['03', '03 · Simular (vacío)', { stack: SIM, patch: { ...base, montoTexto: '', dias: null, montoTocado: false } }],
-    ['05', '05 · Simular (resultado)', { stack: SIM, patch: base }],
-    ['06', '06 · Cambiar tipo (hoja)', { stack: SIM, patch: base, sheet: 'tipo' }],
-    ['07', '07 · Elegir cuenta', { stack: [...SIM, 'elegirCuenta'], patch: { ...base, cuenta: 'ca-3643' } }],
-    ['08', '08 · Revisar datos', { stack: [...SIM, 'elegirCuenta', 'revisar'], patch: { ...base, cuenta: 'ca-3643' } }],
-    ['09', '09 · Plazo fijo constituido', { stack: ['inicio', 'plazoFijo', 'resultado'], patch: { ...base, cuenta: 'ca-3643', resultado: 'ok', demoInversion: true } }],
+  ['Flujo principal (numeración de Figma)', [
+    ['01', '01 · Inicio · Intersticial de bienvenida', { stack: ['inicio'], patch: {}, sheet: 'intersticial' }],
+    ['02', '02 · Inicio', { stack: ['inicio'], patch: {} }],
+    ['03', '03 · Inversiones', { stack: ['inicio', 'inversiones'], patch: {} }],
+    ['04', '04 · Plazo fijo · Sin inversiones', { stack: ['inicio', 'plazoFijo'], patch: { montoTexto: '', dias: null, inversiones: [] } }],
+    ['05', '05 · Elegir tipo de plazo fijo', { stack: ['inicio', 'plazoFijo', 'elegirTipo'], patch: { tipoDraft: null } }],
+    ['06', '06 · Simular · Vacío', { stack: SIM, patch: { ...base, montoTexto: '', dias: null, montoTocado: false } }],
+    ['08', '08 · Simular · Resultado', { stack: SIM, patch: base }],
+    ['09', '09 · Cambiar tipo (hoja inferior)', { stack: SIM, patch: base, sheet: 'tipo' }],
+    ['10', '10 · Elegir cuenta', { stack: [...SIM, 'elegirCuenta'], patch: { ...base, cuenta: 'ca-3643' } }],
+    ['11', '11 · Revisar datos', { stack: [...SIM, 'elegirCuenta', 'revisar'], patch: { ...base, cuenta: 'ca-3643' } }],
+    ['12', '12 · Plazo fijo constituido', { stack: ['inicio', 'plazoFijo', 'resultado'], patch: { ...base, cuenta: 'ca-3643', resultado: 'ok', demoInversion: true } }],
+    ['13', '13 · Plazo fijo · Con inversiones', { stack: ['inicio', 'plazoFijo'], patch: { ...base, cuenta: 'ca-3643', resultado: 'ok', demoInversion: true } }],
   ]],
   ['Estados alternativos', [
     ['A', 'A · Monto menor al mínimo', { stack: SIM, patch: { ...base, montoTexto: '500', dias: null } }],

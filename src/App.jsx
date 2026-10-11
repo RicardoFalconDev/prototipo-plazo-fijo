@@ -99,6 +99,8 @@ export default function App() {
   useEffect(() => {
     const k = new URLSearchParams(location.search).get('pantalla');
     if (k) jump(k.toUpperCase());
+    // Intersticial de bienvenida al encender el prototipo (no al entrar directo a una pantalla).
+    else { const id = setTimeout(() => nav.sheet('intersticial'), 500); return () => clearTimeout(id); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

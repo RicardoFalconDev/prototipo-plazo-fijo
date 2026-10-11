@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Intersticial } from './Intersticial.jsx';
 import { BottomSheet, Button, ListOption, Alert, DataRow, Card, Icon } from '../components/ui.jsx';
 import { TIPOS, dinero, fecha, fechaLarga, vencimiento, track } from '../logic.js';
 
@@ -7,6 +8,12 @@ export function Sheets({ s, set, nav }) {
   const close = nav.back;
   return (
     <>
+      <AnimatePresence>{s.sheet === 'intersticial' && (
+        <Intersticial key="intersticial" onClose={close} onSimular={() => {
+          track('pf_entry', { origen: 'intersticial' });
+          nav.goto(['inicio', 'plazoFijo', 'elegirTipo'], { tipoDraft: null });
+        }} />
+      )}</AnimatePresence>
       <AnimatePresence>{s.sheet === 'tipo' && (<BottomSheet key="tipo" title="¿Qué tipo de plazo fijo querés simular?" onClose={close}
         actions={<>
           <Button onClick={() => {

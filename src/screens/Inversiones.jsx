@@ -13,9 +13,9 @@ const CARGA_MS = 1400;
 
 // Formas del esqueleto en coordenadas de Figma (px de la card de 332 de ancho).
 const ESQUELETOS = {
-  dolares: { h: 154, partes: [[11, 13, 150, 14], [11, 51, 52, 52, 'circ'], [79, 55, 70, 16], [79, 80, 90, 11], [79, 98, 90, 11], [11, 122, 149, 21], [171, 122, 149, 21]] },
-  plazo: { h: 141, partes: [[11, 13, 70, 14], [11, 44, 52, 52, 'circ'], [72, 56, 220, 11], [72, 74, 150, 11], [11, 109, 149, 21], [171, 109, 149, 21]] },
-  fondos: { h: 141, partes: [[11, 13, 100, 14], [11, 43, 54, 54, 'circ'], [74, 56, 218, 11], [74, 74, 120, 11], [11, 109, 309, 21]] },
+  dolares: { h: 152, partes: [[12, 13, 150, 14], [12, 50, 52, 52, 'circ'], [79, 54, 70, 16], [79, 79, 90, 11], [79, 97, 90, 11], [12, 119, 149, 21], [173, 119, 149, 21]] },
+  plazo: { h: 139, partes: [[12, 13, 70, 14], [12, 43, 52, 52, 'circ'], [72, 55, 220, 11], [72, 73, 150, 11], [12, 106, 149, 21], [173, 106, 149, 21]] },
+  fondos: { h: 139, partes: [[12, 13, 100, 14], [12, 42, 54, 54, 'circ'], [74, 55, 218, 11], [74, 73, 120, 11], [12, 106, 309, 21]] },
 };
 
 function Esqueleto({ forma }) {
@@ -63,10 +63,10 @@ export function Inversiones({ nav }) {
           <div
             className="inv-card inv-link" role="button" tabIndex={listo ? 0 : -1} onClick={abrirPlazoFijo}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirPlazoFijo(); } }}
-            aria-label="Plazo fijo. Hacé rendir tus ahorros, descubrí cuánto podrías ganar con un plazo fijo."
+            aria-label="Plazo fijo. Simulá un plazo fijo y conocé cuánto podrías ganar antes de invertir."
           >
             <img draggable={false} src={`${IMG}plazo-fijo.webp`} alt="" />
-            <button className="inv-hit" style={{ left: '3.31%', top: '77.3%', width: '44.88%', height: '14.9%' }} onClick={simular} tabIndex={listo ? 0 : -1}>
+            <button className="inv-hit" style={{ left: '3.61%', top: '76.26%', width: '44.88%', height: '15.11%' }} onClick={simular} tabIndex={listo ? 0 : -1}>
               <span className="sr-only">Simular</span>
             </button>
           </div>
