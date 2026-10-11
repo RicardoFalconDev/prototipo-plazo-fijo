@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { reducer, estadoInicial, simular, montoNumero, CUENTAS, TIPOS, track } from './logic.js';
+import { Inicio } from './screens/Inicio.jsx';
+import { Inversiones } from './screens/Inversiones.jsx';
 import { PlazoFijo, ElegirTipo, Simular, ElegirCuenta, Revisar, Resultado } from './screens/screens.jsx';
 import { Sheets } from './screens/sheets.jsx';
 import { DeviceShell } from './device/DeviceShell.jsx';
 import { JUMP_BY_KEY } from './jumps.js';
 
-const SCREENS = { plazoFijo: PlazoFijo, elegirTipo: ElegirTipo, simular: Simular, elegirCuenta: ElegirCuenta, revisar: Revisar, resultado: Resultado };
+const SCREENS = { inicio: Inicio, inversiones: Inversiones, plazoFijo: PlazoFijo, elegirTipo: ElegirTipo, simular: Simular, elegirCuenta: ElegirCuenta, revisar: Revisar, resultado: Resultado };
 
 export default function App() {
   const [s, dispatch] = useReducer(reducer, estadoInicial);
@@ -40,7 +42,9 @@ export default function App() {
     push: (screen) => { pushHistory(); dispatch({ type: 'push', screen }); },
     sheet: (sheet) => { pushHistory(); dispatch({ type: 'sheet', sheet }); },
     back: () => { if (depth.current > 0) history.back(); else dispatch({ type: 'back' }); },
-    home: () => { resetHistory(0); dispatch({ type: 'home' }); },
+    // "home" vuelve al hub de Plazo fijo (con Inicio debajo); "inicio" vuelve a la pantalla de inicio.
+    home: () => { resetHistory(1); dispatch({ type: 'home' }); },
+    inicio: () => { resetHistory(0); dispatch({ type: 'inicio' }); },
     goto: (stack, patch = {}, sheet = null) => {
       resetHistory(stack.length - 1 + (sheet ? 1 : 0));
       dispatch({ type: 'goto', stack, patch, sheet });
@@ -66,7 +70,7 @@ export default function App() {
         set({ resultado: 'pendiente', confirmando: false, pendiente: { ...base, solicitud: 'SOL-' + Math.floor(10000 + Math.random() * 89999) } });
         track('pf_constitution_result', { resultado: 'pendiente' });
       } else finalizarOk(base);
-      nav.goto(['plazoFijo', 'resultado']);
+      nav.goto(['inicio', 'plazoFijo', 'resultado']);
     }, 1200);
   };
 

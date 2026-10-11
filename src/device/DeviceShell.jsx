@@ -71,7 +71,7 @@ export function DeviceShell({ s, nav, children }) {
           <div className="phone-screen">
             <StatusBar dark={overlay} />
             <div className="phone-app">{children}</div>
-            <SystemNav onBack={nav.back} onHome={nav.home} />
+            <SystemNav onBack={nav.back} onHome={nav.inicio} />
           </div>
         </div>
       </div>

@@ -38,7 +38,8 @@ export function AppBar({ title, onBack, onHelp, onClose }) {
       ) : <span className="icon-btn" />}
       <h1 className="appbar-title t-title-md">{title}</h1>
       {onHelp ? (
-        <button className="icon-btn" onClick={onHelp} aria-label="¿Qué es un plazo fijo?"><Icon name="help" color="var(--color-icon-brand)" /></button>
+        // Ícono de ayuda solo visual en el prototipo: no se puede tocar.
+        <span className="icon-btn" aria-hidden="true"><Icon name="help" color="var(--color-icon-brand)" /></span>
       ) : onClose ? (
         <button className="icon-btn" onClick={onClose} aria-label="Cerrar"><Icon name="close" color="var(--color-icon-primary)" /></button>
       ) : <span className="icon-btn" />}

@@ -49,7 +49,7 @@ button:disabled { cursor: not-allowed; }
 }
 .appbar-title { flex: 1; text-align: center; color: var(--color-text-brand); margin: 0; }
 .icon-btn { width: var(--size-touch-min); height: var(--size-touch-min); display: grid; place-items: center; border-radius: var(--radius-full); flex: none; }
-.icon-btn:active { background: var(--color-bg-brand-subtle); }
+button.icon-btn:active { background: var(--color-bg-brand-subtle); }
 .screen:has(.result-head) .appbar { background: transparent; }
 
 /* ---------- Componentes ---------- */
@@ -238,7 +238,8 @@ button:disabled { cursor: not-allowed; }
 .recents i { width: 2px; height: 14px; background: var(--color-icon-inverse); }
 .home { width: 18px; height: 18px; border: 2px solid var(--color-icon-inverse); border-radius: var(--radius-full); }
 
-@media (max-width: 900px) { 
+@media (max-width: 900px) { .desk { padding: var(--spacing-md); } }
+
 /* Tenencias (Figma 36:15204) */
 .stack-xs { display: flex; flex-direction: column; gap: var(--spacing-xs); }
 .holding-card { display: flex; flex-direction: column; background: var(--color-bg-surface); border: var(--border-width-default) solid var(--color-border-default); border-radius: var(--radius-sm); box-shadow: var(--elevation-2); }
@@ -249,3 +250,67 @@ button:disabled { cursor: not-allowed; }
 .simulate-card { gap: var(--spacing-md); padding: var(--spacing-md); }
 .simulate-head { display: flex; gap: 20px; align-items: flex-start; }
 .simulate-text { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+
+/* ---------- Inicio (Figma 36:19610) ---------- */
+.home-screen { background: #F7F9F9; }
+.home-scroll { background: #F7F9F9; }
+.home-hero { background: linear-gradient(180deg, #0839E8 0%, #042082 100%); padding: 12px 0 42px; color: #fff; }
+.native .home-hero { padding-top: calc(12px + env(safe-area-inset-top)); }
+.home-top { display: flex; align-items: center; gap: 12px; padding: 0 var(--spacing-md) 0 18px; }
+.home-avatar { width: 33px; height: 33px; border-radius: 50%; background: #E2F3FA; display: grid; place-items: center; flex: none; }
+.home-hello { flex: 1; font-size: 14px; line-height: 20px; color: #fff; }
+.home-accounts-head { display: flex; align-items: center; justify-content: space-between; padding: 21px 18px 14px 14px; }
+.home-accounts { display: flex; gap: 14px; overflow-x: auto; padding: 0 14px; scroll-snap-type: x mandatory; scroll-padding-inline: 14px; }
+.home-account { flex: none; width: calc(100% - 60px); max-width: 400px; scroll-snap-align: start; background: #fff; border-radius: 7px; padding: 14px 10px 13px; color: #111; display: flex; flex-direction: column; gap: 12px; }
+.home-account-row { display: flex; align-items: center; justify-content: space-between; }
+.home-balance { font-size: 22px; line-height: 28px; }
+.home-account-actions { display: flex; justify-content: space-around; padding-top: 4px; }
+.home-mini { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 76px; }
+.home-icon-btn { width: 24px; height: 24px; display: grid; place-items: center; }
+.home-label { font-size: 11px; line-height: 14px; color: #111; text-align: center; }
+.home-panel { position: relative; margin-top: -28px; background: #F7F9F9; border-radius: 14px 14px 0 0; padding: var(--spacing-md) var(--spacing-md) 32px; display: flex; flex-direction: column; gap: 15px; }
+.home-grid { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 480px; width: 100%; margin: 0 auto; row-gap: 12px; column-gap: 2px; }
+.home-access { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 2px 0; min-height: 79px; border-radius: 8px; }
+.home-access.is-link { cursor: pointer; }
+.home-access.is-link:active, .home-service.is-link:active { background: rgba(0, 82, 158, .08); }
+.home-section { display: flex; flex-direction: column; gap: 8px; }
+.home-title { font-size: 14px; line-height: 19px; color: #111; }
+.home-hscroll { display: flex; gap: 10px; overflow-x: auto; margin: 0 calc(var(--spacing-md) * -1); padding: 0 var(--spacing-md) 4px; scroll-snap-type: x mandatory; scroll-padding-inline: var(--spacing-md); }
+.home-img { display: block; height: auto; }
+.home-debit { width: 100%; border-radius: 6.67px; }
+.home-promo { flex: none; width: 81%; max-width: 380px; scroll-snap-align: start; border-radius: 7px; box-shadow: 0 2.67px 8px rgba(0,0,0,.16), 0 .67px 2px rgba(0,0,0,.08); }
+.home-promo.light { width: 74%; max-width: 340px; border-radius: 4.58px; box-shadow: 0 8px 24px rgba(0,0,0,.16), 0 2px 6px rgba(0,0,0,.08); }
+.home-hscroll { padding-top: 4px; padding-bottom: 24px; margin-bottom: -16px; }
+.home-service { flex: none; width: 87.5%; max-width: 400px; scroll-snap-align: start; padding: 0; border-radius: 7.25px; box-shadow: 0 1.81px 5.44px rgba(0,0,0,.08), 0 .9px 1.81px rgba(0,0,0,.12); overflow: hidden; }
+button.home-service .home-img { width: 100%; }
+.home-tabs { flex: none; position: relative; height: 56px; background: #fff; }
+.home-tabs-inner { position: absolute; left: 50%; bottom: 0; width: 360px; height: 56px; transform: translateX(-50%); }
+.home-tabs-inner img { position: absolute; left: 0; bottom: 0; width: 360px; pointer-events: none; }
+.home-tab-hit { position: absolute; top: 0; height: 56px; border-radius: 8px; }
+.home-tab-hit:active { background: rgba(0, 82, 158, .08); }
+.native .home-tabs { height: calc(56px + env(safe-area-inset-bottom)); }
+.native .home-tabs-inner { bottom: env(safe-area-inset-bottom); }
+.home-accounts, .home-hscroll { cursor: grab; user-select: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.home-accounts.dragging, .home-hscroll.dragging { cursor: grabbing; }
+
+/* ---------- Inversiones (Figma 89:20814) ---------- */
+.inv-list { display: flex; flex-direction: column; gap: 14px; margin-right: -4px; }
+.inv-card { display: block; width: 100%; height: auto; }
+.inv-card.pionero { border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+.inv-link { position: relative; cursor: pointer; border-radius: 6px; }
+.inv-link img { display: block; width: 100%; height: auto; }
+.inv-link:active { filter: brightness(.97); }
+.inv-hit { position: absolute; border-radius: 7px; }
+.inv-hit:active { background: rgba(0, 42, 148, .1); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.inv-slot { position: relative; width: 100%; }
+.inv-skel { position: absolute; inset: 0; background: var(--color-bg-surface); border: 1px solid var(--color-border-default); border-radius: 6px; transition: opacity 200ms ease 300ms; }
+.inv-skel .skeleton { position: absolute; border-radius: 4px; }
+.inv-skel .skeleton.circ { border-radius: 50%; }
+.inv-content { position: relative; opacity: 0; pointer-events: none; transition: opacity 300ms cubic-bezier(0, 0, 0, 1); }
+.inv-slot.listo .inv-content { opacity: 1; pointer-events: auto; }
+.inv-slot.listo .inv-skel { opacity: 0; }
+/* Fade through (Material): entra con fundido y leve zoom; la barra inferior no se anima. */
+.tab-in { animation: tab-in 260ms cubic-bezier(0, 0, 0, 1) both; }
+@keyframes tab-in { from { opacity: 0; transform: scale(.98); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tab-in { animation: none; } .inv-content, .inv-skel { transition: none; } }

@@ -319,7 +319,7 @@ export function Resultado({ s, nav, consultar }) {
       ) : (
         <>
           <Button loading={s.confirmando} onClick={consultar}>Consultar estado</Button>
-          <Button variant="secondary" onClick={nav.home}>Ir al inicio</Button>
+          <Button variant="secondary" onClick={nav.inicio}>Ir al inicio</Button>
         </>
       )}
     >

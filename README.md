@@ -12,7 +12,7 @@
 - Forzar un modo: `?modo=nativo` o `?modo=telefono`.
 
 ## Ir directo a una pantalla
-Agregá `?pantalla=` al link: `01`, `02`, `03`, `05`, `06`, `07`, `08`, `09` (flujo) o `A`, `B`, `C`, `D` (estados).
+Agregá `?pantalla=` al link: `00` (inicio), `01`, `02`, `03`, `05`, `06`, `07`, `08`, `09` (flujo) o `A`, `B`, `C`, `D` (estados).
 Ej.: `https://ricardofalcondev.github.io/prototipo-plazo-fijo/?pantalla=05`
 
 ## Qué se puede probar

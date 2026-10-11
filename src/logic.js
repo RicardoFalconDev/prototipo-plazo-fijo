@@ -106,7 +106,7 @@ export function track(evento, props = {}) {
 }
 
 export const estadoInicial = {
-  stack: ['plazoFijo'],
+  stack: ['inicio'],
   sheet: null,
   monedaHome: 'ARS',
   tipo: 'trad-ars',
@@ -132,7 +132,9 @@ export function reducer(s, a) {
       if (s.stack.length > 1) return { ...s, stack: s.stack.slice(0, -1) };
       return s;
     case 'home':
-      return { ...s, stack: ['plazoFijo'], sheet: null };
+      return { ...s, stack: ['inicio', 'plazoFijo'], sheet: null };
+    case 'inicio':
+      return { ...s, stack: ['inicio'], sheet: null };
     case 'goto':
       return { ...s, ...a.patch, stack: a.stack, sheet: a.sheet ?? null };
     case 'sheet':
