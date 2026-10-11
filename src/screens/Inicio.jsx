@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '../components/ui.jsx';
 import { track } from '../logic.js';
+import { asset } from '../asset.js';
 
 // Pantalla de inicio según Figma "Inicio · Macro" (36:19610).
 // Solo "Plazo fijo" y la tarjeta "Hacé rendir tus ahorros" navegan; el resto es contexto visual.
 // Barra de navegación, tarjeta de débito, banners y tarjetas "Para vos" son exportaciones de Figma (fieles al diseño).
 
-const IMG = `${import.meta.env.BASE_URL}inicio/`;
+const IMG = (f) => asset('inicio/' + f);
 const AZUL = '#00529E';
 const CLARO = '#E4F2FC';
 
@@ -199,7 +200,7 @@ export function NavPrincipal({ activa, nav }) {
   return (
     <nav className="home-tabs" aria-label="Navegación principal">
       <div className="home-tabs-inner">
-        <img draggable={false} src={`${IMG}${activa === 'inversiones' ? 'nav-inversiones' : 'nav'}.webp`} alt="" />
+        <img draggable={false} src={IMG(`${activa === 'inversiones' ? 'nav-inversiones' : 'nav'}.webp`)} alt="" />
         <button className="home-tab-hit" style={{ left: '4.44%', width: '17.78%' }} aria-current={activa === 'inicio' ? 'page' : undefined} onClick={() => ir('inicio')}><span className="sr-only">Inicio</span></button>
         <button className="home-tab-hit" style={{ left: '60%', width: '17.78%' }} aria-current={activa === 'inversiones' ? 'page' : undefined} onClick={() => ir('inversiones')}><span className="sr-only">Inversiones</span></button>
       </div>
@@ -247,13 +248,13 @@ export function Inicio({ set, nav }) {
             })}
           </div>
 
-          <img draggable={false} className="home-img home-debit" src={`${IMG}debito.webp`} alt="Tarjeta de débito terminada en 5017" />
+          <img draggable={false} className="home-img home-debit" src={IMG(`debito.webp`)} alt="Tarjeta de débito terminada en 5017" />
 
           <div className="home-section">
             <p className="home-title">Beneficios</p>
             <Carrusel className="home-hscroll">
-              <img draggable={false} className="home-img home-promo" src={`${IMG}modo.webp`} alt="Pagando con MODO tenés más beneficios. Conocer más" />
-              <img draggable={false} className="home-img home-promo light" src={`${IMG}tienda.webp`} alt="Tienda Macro: comprá en cuotas sin interés. Conocer más" />
+              <img draggable={false} className="home-img home-promo" src={IMG(`modo.webp`)} alt="Pagando con MODO tenés más beneficios. Conocer más" />
+              <img draggable={false} className="home-img home-promo light" src={IMG(`tienda.webp`)} alt="Tienda Macro: comprá en cuotas sin interés. Conocer más" />
             </Carrusel>
           </div>
 
@@ -261,11 +262,11 @@ export function Inicio({ set, nav }) {
             <p className="home-title">Para vos</p>
             <Carrusel className="home-hscroll">
               <button className="home-service is-link" onClick={simular} aria-label="Tus ahorros pueden rendir más. Simular plazo fijo">
-                <img draggable={false} className="home-img" src={`${IMG}s1.webp`} alt="" />
+                <img draggable={false} className="home-img" src={IMG(`s1.webp`)} alt="" />
               </button>
-              <img draggable={false} className="home-img home-service" src={`${IMG}s2.webp`} alt="¡Recargá todo desde la app! Ir a Recargar" />
-              <img draggable={false} className="home-img home-service" src={`${IMG}s3.webp`} alt="Pagá tus servicios desde acá. Ir a pagar" />
-              <img draggable={false} className="home-img home-service" src={`${IMG}s4.webp`} alt="Asegurá tu hogar. Ir a pagar" />
+              <img draggable={false} className="home-img home-service" src={IMG(`s2.webp`)} alt="¡Recargá todo desde la app! Ir a Recargar" />
+              <img draggable={false} className="home-img home-service" src={IMG(`s3.webp`)} alt="Pagá tus servicios desde acá. Ir a pagar" />
+              <img draggable={false} className="home-img home-service" src={IMG(`s4.webp`)} alt="Asegurá tu hogar. Ir a pagar" />
             </Carrusel>
           </div>
         </section>

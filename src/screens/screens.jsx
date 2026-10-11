@@ -6,6 +6,7 @@ import {
   DataRow, EditableRow, AccountCard, Card, EmptyState, Screen, Icon, AnimatedNumber,
 } from '../components/ui.jsx';
 import { TIPOS, MONEDAS, CUENTAS, dinero, fecha, simular, montoNumero, errorMonto, track, tnaTexto } from '../logic.js';
+import { asset } from '../asset.js';
 
 // Fuerza animación por JS: la acelerada (WAAPI) deja un cuadro en el valor inicial al terminar.
 const noopMotion = () => {};
@@ -58,7 +59,7 @@ export function PlazoFijo({ s, set, nav }) {
         <p className="t-body-lg c-primary">Simulá tu próximo plazo fijo</p>
         <div className="holding-card simulate-card">
           <div className="simulate-head">
-            <img src={`${import.meta.env.BASE_URL}ilustracion-ahorro.svg`} width="72" height="77" alt="" />
+            <img src={asset('ilustracion-ahorro.svg')} width="72" height="77" alt="" />
             <div className="simulate-text">
               <p className="t-title-md c-primary">Hacé rendir tus ahorros</p>
               <p className="t-body-md c-secondary pre-line">{'Descubrí cuánto podrías ganar\ncon un plazo fijo.'}</p>

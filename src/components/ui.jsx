@@ -1,6 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useAnimationControls, useDragControls, animate } from 'framer-motion';
 import { SPRING, DUR, EASE, haptic } from '../motion.js';
+import { asset } from '../asset.js';
 
 // Fuerza animación por JS: la acelerada (WAAPI) deja un cuadro en el valor inicial al terminar.
 const noopMotion = () => {};
@@ -242,7 +243,7 @@ export function EmptyState({ title, description, illustration, action, onAction 
   // description admite saltos de línea explícitos (\n) como en Figma.
   return (
     <div className="card empty">
-      {illustration && <img src={`${import.meta.env.BASE_URL}ilustracion-ahorro.svg`} width="72" height="77" alt="" />}
+      {illustration && <img src={asset('ilustracion-ahorro.svg')} width="72" height="77" alt="" />}
       <p className="t-title-md c-primary">{title}</p>
       <p className="t-body-md c-secondary pre-line">{description}</p>
       {action && <Button onClick={onAction}>{action}</Button>}

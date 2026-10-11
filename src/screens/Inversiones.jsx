@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { AppBar } from '../components/ui.jsx';
 import { NavPrincipal, useEntradaDeTab } from './Inicio.jsx';
 import { track } from '../logic.js';
+import { asset } from '../asset.js';
 
 // Pantalla "Inversiones" según Figma (89:20814). Las tarjetas son exportaciones de Figma.
 // Mantiene la barra de navegación principal con Inversiones activo.
 // Las tarjetas 2 a 4 dependen de servicios: muestran un esqueleto con su misma forma y tamaño
 // (sin saltos de layout) y aparecen con un fundido cuando "llegan" los datos.
 // Plazo fijo: toda la tarjeta lleva al home de Plazo fijo; "Simular" entra directo al flujo.
-const IMG = `${import.meta.env.BASE_URL}inversiones/`;
+const IMG = (f) => asset('inversiones/' + f);
 const CARGA_MS = 1400;
 
 // Formas del esqueleto en coordenadas de Figma (px de la card de 332 de ancho).
@@ -55,9 +56,9 @@ export function Inversiones({ nav }) {
     <div className="screen">
       <AppBar title="Inversiones" />
       <main className={`content ${entrada}`}><div className="content-inner"><div className="inv-list">
-        <img draggable={false} className="inv-card pionero" src={`${IMG}pionero.webp`} alt="Cuenta Pionero: obtené rendimientos diarios y tené tu dinero siempre disponible para realizar transferencias." />
+        <img draggable={false} className="inv-card pionero" src={IMG(`pionero.webp`)} alt="Cuenta Pionero: obtené rendimientos diarios y tené tu dinero siempre disponible para realizar transferencias." />
         <Ranura forma="dolares" listo={listo}>
-          <img draggable={false} className="inv-card" src={`${IMG}dolares.webp`} alt="Comprar y vender dólares. USD 0,00. Compra: $ 1.540. Venta: $ 1.480." />
+          <img draggable={false} className="inv-card" src={IMG(`dolares.webp`)} alt="Comprar y vender dólares. USD 0,00. Compra: $ 1.540. Venta: $ 1.480." />
         </Ranura>
         <Ranura forma="plazo" listo={listo}>
           <div
@@ -65,14 +66,14 @@ export function Inversiones({ nav }) {
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirPlazoFijo(); } }}
             aria-label="Plazo fijo. Simulá un plazo fijo y conocé cuánto podrías ganar antes de invertir."
           >
-            <img draggable={false} src={`${IMG}plazo-fijo.webp`} alt="" />
+            <img draggable={false} src={IMG(`plazo-fijo.webp`)} alt="" />
             <button className="inv-hit" style={{ left: '3.61%', top: '76.26%', width: '44.88%', height: '15.11%' }} onClick={simular} tabIndex={listo ? 0 : -1}>
               <span className="sr-only">Simular</span>
             </button>
           </div>
         </Ranura>
         <Ranura forma="fondos" listo={listo}>
-          <img draggable={false} className="inv-card" src={`${IMG}fondos.webp`} alt="Macro fondos: accedé a inversiones colectivas hechas a tu medida." />
+          <img draggable={false} className="inv-card" src={IMG(`fondos.webp`)} alt="Macro fondos: accedé a inversiones colectivas hechas a tu medida." />
         </Ranura>
       </div></div></main>
       <NavPrincipal activa="inversiones" nav={nav} />

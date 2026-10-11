@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui.jsx';
+import { asset } from '../asset.js';
 
 // Intersticial de bienvenida según Figma "Dialog" (99:24255, frame 01), 327 × 585.
 // Fondo (degradé, elipses y foto) exportado de Figma; textos, íconos y botones en código.
 // Posiciones en coordenadas del diseño (px dentro del diálogo) para respetarlo tal cual.
 // Tipografías del diseño: Titillium Web (título) e Inter (textos).
-const IMG = `${import.meta.env.BASE_URL}intersticial/`;
+const IMG = (f) => asset('intersticial/' + f);
 const SPRING = { type: 'spring', stiffness: 320, damping: 30, mass: 0.9 };
 const OUT = [0.3, 0, 1, 1];
 const IN = [0, 0, 0, 1];
@@ -44,7 +45,7 @@ export function Intersticial({ onClose, onSimular }) {
         exit={{ opacity: 0, y: 24, scale: 0.98, transition: { duration: 0.18, ease: OUT } }}
       >
         <motion.img
-          className="inter-fondo" src={`${IMG}fondo.webp`} alt="" draggable={false}
+          className="inter-fondo" src={IMG(`fondo.webp`)} alt="" draggable={false}
           initial={{ scale: 1.08 }} animate={{ scale: 1, transition: { duration: 0.9, ease: IN } }}
         />
 
@@ -53,7 +54,7 @@ export function Intersticial({ onClose, onSimular }) {
           initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1, transition: { ...SPRING, delay: 0.35 } }}
           whileTap={{ scale: 0.9 }}
         >
-          <img src={`${IMG}cerrar.svg`} width="16" height="16" alt="" />
+          <img src={IMG(`cerrar.svg`)} width="16" height="16" alt="" />
         </motion.button>
 
         <motion.h2 id="inter-titulo" className="inter-titulo" {...item(0)}>
@@ -66,7 +67,7 @@ export function Intersticial({ onClose, onSimular }) {
         <ul className="inter-lista">
           {BENEFICIOS.map(([icon, texto], i) => (
             <motion.li key={icon} className="inter-item" style={{ top: 317 + i * 42 }} {...item(2 + i)}>
-              <span className="inter-icono"><img src={`${IMG}${icon}.svg`} width="24" height="24" alt="" /></span>
+              <span className="inter-icono"><img src={IMG(`${icon}.svg`)} width="24" height="24" alt="" /></span>
               <span>{texto}</span>
             </motion.li>
           ))}
