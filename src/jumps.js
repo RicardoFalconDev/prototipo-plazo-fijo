@@ -1,4 +1,4 @@
-// Accesos directos a pantallas y estados (panel de escritorio y parámetro ?pantalla=).
+// Accesos directos a pantallas y estados (parámetro ?pantalla=).
 const SIM = ['plazoFijo', 'elegirTipo', 'simular'];
 const base = { tipo: 'trad-ars', tipoDraft: 'trad-ars', montoTexto: '1000', dias: 30, montoTocado: true, escenario: { banco: 'ok', red: 'ok' } };
 

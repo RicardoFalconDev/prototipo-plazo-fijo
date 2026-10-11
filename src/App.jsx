@@ -29,7 +29,7 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  // Saltos directos (inicio, ?pantalla=, panel): agrega `n` entradas propias para que "atrás" recorra el stack.
+  // Saltos directos (inicio, ?pantalla=): agrega `n` entradas propias para que "atrás" recorra el stack.
   // Nunca usa history.go: rebobinar podía salir del prototipo si la pestaña venía de otra página.
   const resetHistory = (n) => {
     depth.current = 0;
@@ -75,7 +75,7 @@ export default function App() {
     setTimeout(() => finalizarOk(sRef.current.pendiente), 1200);
   };
 
-  // Salto directo a una pantalla o estado (panel de escritorio o ?pantalla=05).
+  // Salto directo a una pantalla o estado (?pantalla=05).
   const jump = (key) => {
     const j = JUMP_BY_KEY[key];
     if (!j) return;
@@ -112,5 +112,5 @@ export default function App() {
     </MotionConfig>
   );
 
-  return <DeviceShell s={s} set={set} dispatch={dispatch} nav={nav} jump={jump}>{app}</DeviceShell>;
+  return <DeviceShell s={s} nav={nav}>{app}</DeviceShell>;
 }
