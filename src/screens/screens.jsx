@@ -18,34 +18,67 @@ const fmtMiles = (s) => {
 export function PlazoFijo({ s, set, nav }) {
   const lista = s.inversiones.filter((i) => TIPOS[i.tipo].moneda === s.monedaHome);
   const m = MONEDAS[s.monedaHome];
-  return (
-    <Screen gap="lg" header={<AppBar title="Plazo fijo" onBack={nav.back} onHelp={() => nav.sheet('ayuda')} />}>
-      <CurrencySelector value={s.monedaHome} onChange={(v) => set({ monedaHome: v })} />
-      {lista.length === 0 ? (
+  const empezar = (origen) => {
+    set({ tipoDraft: null }); // En Figma (02) ninguna opción viene preseleccionada.
+    track('pf_simulation_started', { origen, moneda: s.monedaHome });
+    nav.push('elegirTipo');
+  };
+  const header = <AppBar title="Plazo fijo" onBack={nav.back} onHelp={() => nav.sheet('ayuda')} />;
+
+  if (lista.length === 0) {
+    return (
+      <Screen gap="lg" header={header}>
+        <CurrencySelector value={s.monedaHome} onChange={(v) => set({ monedaHome: v })} />
         <EmptyState title={`No tenés plazos fijos en ${m.nombre}`} description="Cuando los tengas los vas a encontrar acá." />
-      ) : (
         <div className="stack-sm">
-          <p className="t-title-md c-primary">Activos ({lista.length})</p>
-          {lista.map((i) => (
-            <Card key={i.id}>
-              <DataRow label={TIPOS[i.tipo].nombre} value={dinero(i.total ?? i.monto, TIPOS[i.tipo].moneda)} emphasis="strong" />
-              <DataRow label="Vence" value={fecha(new Date(i.vence))} />
-              <DataRow label="Tasa" last><Tag tone="exito" icon="trending-up">{tnaTexto(TIPOS[i.tipo])}</Tag></DataRow>
-            </Card>
-          ))}
+          <p className="t-title-md c-primary">Simulá tu próximo plazo fijo</p>
+          <EmptyState
+            illustration title="Hacé rendir tus ahorros" description={'Descubrí cuánto podrías ganar\ncon un plazo fijo.'}
+            action="Simular" onAction={() => empezar('plazo_fijo')}
+          />
         </div>
-      )}
+      </Screen>
+    );
+  }
+
+  // Tenencias: igual a Figma "10 · Plazo fijo · Con inversiones" (36:15204).
+  const total = lista.reduce((a, i) => a + (i.total ?? i.monto), 0);
+  const ganancias = lista.reduce((a, i) => a + ((i.total ?? i.monto) - i.monto), 0);
+  return (
+    <Screen gap="md" header={header}>
+      <div className="stack-xs">
+        <CurrencySelector value={s.monedaHome} onChange={(v) => set({ monedaHome: v })} />
+        <div className="holding-card holding-total">
+          <p className="t-body-sm c-secondary">Monto total (capital + ganancias)</p>
+          <p className="t-amount-20 c-primary">{dinero(total, s.monedaHome)}</p>
+          <p className="t-body-md c-secondary">Ganancias: <span className="c-success">+ {dinero(ganancias, s.monedaHome)}</span></p>
+        </div>
+      </div>
       <div className="stack-sm">
-        <p className="t-title-md c-primary">Simulá tu próximo plazo fijo</p>
-        <EmptyState
-          illustration title="Hacé rendir tus ahorros" description={'Descubrí cuánto podrías ganar\ncon un plazo fijo.'}
-          action="Simular"
-          onAction={() => {
-            set({ tipoDraft: null }); // En Figma (02) ninguna opción viene preseleccionada.
-            track('pf_simulation_started', { origen: 'plazo_fijo', moneda: s.monedaHome });
-            nav.push('elegirTipo');
-          }}
-        />
+        <p className="t-body-lg c-primary">Simulá tu próximo plazo fijo</p>
+        <div className="holding-card simulate-card">
+          <div className="simulate-head">
+            <img src={`${import.meta.env.BASE_URL}ilustracion-ahorro.svg`} width="72" height="77" alt="" />
+            <div className="simulate-text">
+              <p className="t-title-md c-primary">Hacé rendir tus ahorros</p>
+              <p className="t-body-md c-secondary pre-line">{'Descubrí cuánto podrías ganar\ncon un plazo fijo.'}</p>
+            </div>
+          </div>
+          <Button onClick={() => empezar('tenencias')}>Simular</Button>
+        </div>
+      </div>
+      <div className="stack-sm">
+        <p className="t-body-lg c-primary">Activos ({lista.length})</p>
+        {lista.map((i) => (
+          <div key={i.id} className="holding-card holding">
+            <p className="t-body-lg c-primary">{TIPOS[i.tipo].nombre}</p>
+            <p className="t-body-sm c-secondary">Vence el {fecha(new Date(i.vence))}</p>
+            <div className="holding-row">
+              <p className="t-body-lg c-primary">{dinero(i.total ?? i.monto, TIPOS[i.tipo].moneda)}</p>
+              <Tag tone="exito">{tnaTexto(TIPOS[i.tipo])}</Tag>
+            </div>
+          </div>
+        ))}
       </div>
     </Screen>
   );

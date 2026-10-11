@@ -239,3 +239,13 @@ button:disabled { cursor: not-allowed; }
 .home { width: 18px; height: 18px; border: 2px solid var(--color-icon-inverse); border-radius: var(--radius-full); }
 
 @media (max-width: 900px) { 
+/* Tenencias (Figma 36:15204) */
+.stack-xs { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.holding-card { display: flex; flex-direction: column; background: var(--color-bg-surface); border: var(--border-width-default) solid var(--color-border-default); border-radius: var(--radius-sm); box-shadow: var(--elevation-2); }
+.holding-total { gap: var(--spacing-xs); padding: var(--spacing-sm); }
+.holding { gap: var(--spacing-2xs); padding: var(--spacing-sm); }
+.holding-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-sm); }
+.t-amount-20 { font-size: 20px; line-height: 28px; font-weight: 400; }
+.simulate-card { gap: var(--spacing-md); padding: var(--spacing-md); }
+.simulate-head { display: flex; gap: 20px; align-items: flex-start; }
+.simulate-text { display: flex; flex-direction: column; gap: var(--spacing-xs); }
