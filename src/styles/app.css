@@ -283,13 +283,13 @@ button.icon-btn:active { background: var(--color-bg-brand-subtle); }
 .home-hscroll { padding-top: 4px; padding-bottom: 24px; margin-bottom: -16px; }
 .home-service { flex: none; width: 87.5%; max-width: 400px; scroll-snap-align: start; padding: 0; border-radius: 7.25px; box-shadow: 0 1.81px 5.44px rgba(0,0,0,.08), 0 .9px 1.81px rgba(0,0,0,.12); overflow: hidden; }
 button.home-service .home-img { width: 100%; }
-.home-tabs { flex: none; position: relative; height: 56px; background: #fff; }
-.home-tabs-inner { position: absolute; left: 50%; bottom: 0; width: 360px; height: 56px; transform: translateX(-50%); }
-.home-tabs-inner img { position: absolute; left: 0; bottom: 0; width: 360px; pointer-events: none; }
-.home-tab-hit { position: absolute; top: 0; height: 56px; border-radius: 8px; }
+/* Barra principal: escala con el ancho (proporción 360 × 56 de Figma) para verse igual en cualquier celular. */
+.home-tabs { flex: none; position: relative; background: #fff; }
+.native .home-tabs { padding-bottom: env(safe-area-inset-bottom); }
+.home-tabs-inner { position: relative; width: 100%; max-width: 480px; margin: 0 auto; aspect-ratio: 360 / 56; }
+.home-tabs-inner img { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; pointer-events: none; }
+.home-tab-hit { position: absolute; top: 0; height: 100%; border-radius: 8px; }
 .home-tab-hit:active { background: rgba(0, 82, 158, .08); }
-.native .home-tabs { height: calc(56px + env(safe-area-inset-bottom)); }
-.native .home-tabs-inner { bottom: env(safe-area-inset-bottom); }
 .home-accounts, .home-hscroll { cursor: grab; user-select: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
 .home-accounts.dragging, .home-hscroll.dragging { cursor: grabbing; }
 

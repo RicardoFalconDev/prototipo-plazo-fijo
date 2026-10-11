@@ -200,8 +200,8 @@ export function NavPrincipal({ activa, nav }) {
     <nav className="home-tabs" aria-label="Navegación principal">
       <div className="home-tabs-inner">
         <img draggable={false} src={`${IMG}${activa === 'inversiones' ? 'nav-inversiones' : 'nav'}.webp`} alt="" />
-        <button className="home-tab-hit" style={{ left: 16, width: 64 }} aria-current={activa === 'inicio' ? 'page' : undefined} onClick={() => ir('inicio')}><span className="sr-only">Inicio</span></button>
-        <button className="home-tab-hit" style={{ left: 216, width: 64 }} aria-current={activa === 'inversiones' ? 'page' : undefined} onClick={() => ir('inversiones')}><span className="sr-only">Inversiones</span></button>
+        <button className="home-tab-hit" style={{ left: '4.44%', width: '17.78%' }} aria-current={activa === 'inicio' ? 'page' : undefined} onClick={() => ir('inicio')}><span className="sr-only">Inicio</span></button>
+        <button className="home-tab-hit" style={{ left: '60%', width: '17.78%' }} aria-current={activa === 'inversiones' ? 'page' : undefined} onClick={() => ir('inversiones')}><span className="sr-only">Inversiones</span></button>
       </div>
     </nav>
   );
