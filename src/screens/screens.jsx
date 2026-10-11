@@ -150,7 +150,7 @@ export function Simular({ s, set, nav, dispatch }) {
             const ok = CUENTAS[moneda].filter((c) => c.saldo >= monto).sort((a, b) => b.saldo - a.saldo)[0];
             set({ cuenta: ok ? ok.id : null });
             nav.push('elegirCuenta');
-          }}>Constituir</Button>}
+          }}>Iniciar este plazo fijo</Button>}
     >
       {s.calculo === 'error' && (
         <Alert tone="error" title="Tuvimos un inconveniente al cargar la información">Por favor, volvé a intentar más tarde.</Alert>
