@@ -30,6 +30,9 @@ export const TIPOS = {
   },
 };
 
+// Por ahora solo están habilitados los plazos fijos tradicionales (en pesos y en dólares).
+export const TIPO_HABILITADO = (id) => id.startsWith('trad');
+
 export const MONEDAS = {
   ARS: { simbolo: '$', minimo: 1000, nombre: 'pesos' },
   USD: { simbolo: 'US$', minimo: 100, nombre: 'dólares' },

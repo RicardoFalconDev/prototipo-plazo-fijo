@@ -5,7 +5,7 @@ import {
   AppBar, Button, CurrencySelector, Tag, Alert, SelectField, AmountField, TermChip, ListOption,
   DataRow, EditableRow, AccountCard, Card, EmptyState, Screen, Icon, AnimatedNumber,
 } from '../components/ui.jsx';
-import { TIPOS, MONEDAS, CUENTAS, dinero, fecha, simular, montoNumero, errorMonto, track, tnaTexto } from '../logic.js';
+import { TIPOS, TIPO_HABILITADO, MONEDAS, CUENTAS, dinero, fecha, simular, montoNumero, errorMonto, track, tnaTexto } from '../logic.js';
 import { asset } from '../asset.js';
 
 // Fuerza animación por JS: la acelerada (WAAPI) deja un cuadro en el valor inicial al terminar.
@@ -102,7 +102,7 @@ export function ElegirTipo({ s, set, nav }) {
       <Card className="list" role="radiogroup">
         {ids.map((id, i) => (
           <ListOption key={id} selected={s.tipoDraft === id} title={TIPOS[id].nombre} description={TIPOS[id].descripcion}
-            featured={id === 'trad-ars' ? 'Más elegido' : null}
+            featured={id === 'trad-ars' ? 'Más elegido' : null} disabled={!TIPO_HABILITADO(id)}
             divider={i < ids.length - 1} onClick={() => set({ tipoDraft: id })} />
         ))}
       </Card>

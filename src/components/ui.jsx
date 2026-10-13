@@ -179,17 +179,17 @@ export function Radio({ on }) {
   );
 }
 
-export function ListOption({ selected, title, description, tags, featured, onClick, divider = true }) {
+export function ListOption({ selected, title, description, tags, featured, onClick, divider = true, disabled = false }) {
   return (
-    <motion.button className={`list-option ${divider ? 'divider' : ''}`} role="radio" aria-checked={selected} onClick={onClick}
-      whileTap={{ scale: 0.99 }} transition={{ duration: DUR.micro }}>
-      <Radio on={selected} />
+    <motion.button className={`list-option ${divider ? 'divider' : ''}`} role="radio" aria-checked={selected} aria-disabled={disabled || undefined} disabled={disabled} onClick={onClick}
+      whileTap={disabled ? undefined : { scale: 0.99 }} transition={{ duration: DUR.micro }}>
+      <Radio on={selected && !disabled} />
       <span className="list-text">
         <span className="list-title">
-          <span className="t-title-md c-primary">{title}</span>
+          <span className={`t-title-md ${disabled ? 'c-disabled' : 'c-primary'}`}>{title}</span>
           {featured && <Tag tone="exito">{featured}</Tag>}
         </span>
-        <span className="t-body-md c-secondary">{description}</span>
+        <span className={`t-body-md ${disabled ? 'c-disabled' : 'c-secondary'}`}>{description}</span>
         {tags && <span className="tags">{tags.map(([t, l]) => <Tag key={l} tone={t}>{l}</Tag>)}</span>}
       </span>
     </motion.button>

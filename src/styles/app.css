@@ -19,6 +19,8 @@ button:disabled { cursor: not-allowed; }
 /* Utilidades de color de texto */
 .c-primary { color: var(--color-text-primary); }
 .c-secondary { color: var(--color-text-secondary); }
+.c-disabled { color: var(--color-text-disabled); }
+.list-option:disabled { cursor: not-allowed; }
 .c-tertiary { color: var(--color-text-tertiary); }
 .c-brand { color: var(--color-text-brand); }
 .c-link { color: var(--color-text-link); }

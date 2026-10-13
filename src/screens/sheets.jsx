@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Intersticial } from './Intersticial.jsx';
 import { BottomSheet, Button, ListOption, Alert, DataRow, Card, Icon } from '../components/ui.jsx';
-import { TIPOS, dinero, fecha, fechaLarga, vencimiento, track } from '../logic.js';
+import { TIPOS, TIPO_HABILITADO, dinero, fecha, fechaLarga, vencimiento, track } from '../logic.js';
 
 export function Sheets({ s, set, nav }) {
   const close = nav.back;
@@ -28,7 +28,7 @@ export function Sheets({ s, set, nav }) {
         <div role="radiogroup">
           {Object.values(TIPOS).map((t, i, arr) => (
             <ListOption key={t.id} selected={s.tipoDraft === t.id} title={t.corto} description={t.corta}
-              divider={i < arr.length - 1} onClick={() => set({ tipoDraft: t.id })} />
+              disabled={!TIPO_HABILITADO(t.id)} divider={i < arr.length - 1} onClick={() => set({ tipoDraft: t.id })} />
           ))}
         </div>
       </BottomSheet>)}</AnimatePresence>
