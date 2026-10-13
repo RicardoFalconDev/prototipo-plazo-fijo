@@ -104,6 +104,31 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Espejo con la presentación (?sync=clave): las ventanas que muestran el mismo teléfono comparten el estado.
+  // La ventana donde la persona interactúa "lidera" y envía su estado; las demás lo copian.
+  const lider = useRef(false);
+  const canalSync = useRef(null);
+  useEffect(() => {
+    const clave = new URLSearchParams(location.search).get('sync');
+    if (!clave || !('BroadcastChannel' in window)) return undefined;
+    const c = new BroadcastChannel('control_prototipo');
+    canalSync.current = { c, clave };
+    c.onmessage = ({ data: m }) => {
+      if (!m || m.clave !== clave) return;
+      if (m.tipo === 'estado') { lider.current = false; dispatch({ type: 'set', patch: m.s }); }
+      if (m.tipo === 'pedir' && lider.current) c.postMessage({ tipo: 'estado', clave, s: sRef.current });
+    };
+    const tomar = () => { lider.current = true; };
+    ['pointerdown', 'keydown', 'input'].forEach((t) => addEventListener(t, tomar, true));
+    // Al abrirse, toma el estado de la ventana que esté liderando (si hay una).
+    c.postMessage({ tipo: 'pedir', clave });
+    return () => { ['pointerdown', 'keydown', 'input'].forEach((t) => removeEventListener(t, tomar, true)); c.close(); canalSync.current = null; };
+  }, []);
+  useEffect(() => {
+    const sync = canalSync.current;
+    if (sync && lider.current) sync.c.postMessage({ tipo: 'estado', clave: sync.clave, s });
+  }, [s]);
+
   const top = s.stack[s.stack.length - 1];
   const Current = SCREENS[top];
   const app = (
