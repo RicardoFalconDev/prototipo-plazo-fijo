@@ -236,7 +236,27 @@ export function NavPrincipal({ activa, nav }) {
   );
 }
 
+// ?fondo=1 (lo usa la presentación): la primera vez que se muestra la Home arranca desplazada hasta el final,
+// con la tarjeta "Para vos" de plazo fijo a la vista.
+// Vale hasta la primera interacción: después, volver a la Home la muestra desde arriba, como siempre.
+let fondo = new URLSearchParams(location.search).has('fondo');
+if (fondo) ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach((t) => addEventListener(t, () => { fondo = false; }, { once: true, capture: true, passive: true }));
+function useArrancarAlFondo(ref) {
+  useLayoutEffect(() => {
+    if (!fondo) return undefined;
+    const el = ref.current;
+    const bajar = () => { if (fondo) el.scrollTop = el.scrollHeight; };
+    bajar();
+    // Las imágenes terminan de cargar después y agrandan el contenido: se vuelve a bajar mientras no haya interacción.
+    const ro = new ResizeObserver(bajar);
+    [...el.children].forEach((c) => ro.observe(c));
+    return () => ro.disconnect();
+  }, []);
+}
+
 export function Inicio({ set, nav }) {
+  const scroll = useRef(null);
+  useArrancarAlFondo(scroll);
   const irAPlazoFijo = () => { track('pf_entry', { origen: 'acceso_rapido' }); nav.push('plazoFijo'); };
   const simular = () => {
     track('pf_entry', { origen: 'para_vos' });
@@ -245,7 +265,7 @@ export function Inicio({ set, nav }) {
   const entrada = useEntradaDeTab();
   return (
     <div className="screen home-screen">
-      <main className={`content home-scroll ${entrada}`}>
+      <main ref={scroll} className={`content home-scroll ${entrada}`}>
         <header className="home-hero">
           <div className="home-top">
             <span className="home-avatar"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#0A2E6E" d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5Z" /></svg></span>
